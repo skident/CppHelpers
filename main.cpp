@@ -5,7 +5,7 @@ using namespace std;
 
 void test_stl_helpers_C11()
 {
-#if __cplusplus >= 201103L 
+#ifdef MODERN_CPP_AVAILABLE
 	cout << "=========================================" << endl;
 	cout << "Test of stl_helpers for C++11 and greater" << endl;
 	cout << "=========================================" << endl;
