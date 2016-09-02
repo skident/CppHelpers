@@ -124,15 +124,6 @@ void test_stl_helpers_C03_own_type()
 
 int main()
 {
-	string a = "123";
-	a.resize(1);
-	cout << a << endl;
-	
-	a += "56";
-	cout << a << endl;
-	//return 0;
-	
-	
 	test_stl_helpers_C03();
 	test_stl_helpers_C11();
 	test_stl_helpers_C03_own_type();
