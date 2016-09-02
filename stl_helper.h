@@ -7,8 +7,6 @@
     \date   02.09.2016
 */
 
-#
-
 #include <iostream>
 #include <vector>
 #include <map>
@@ -31,25 +29,6 @@
 
 namespace stl_helper
 {
-	#define in &&  // make the alias for operator && an call it "in"
-
-	//! Search the element elem in conrainer and return true if found and false if not found.
-	//! \param elem element which should be checked for presence in collection
-	//! \param collection generic collection of elements with type T. 
-	//! \return true if element found in collection and false - otherwise
-	//! Usage: if (4 in myVec) doSomething();
-	template <class T>
-	bool operator in(T elem, const std::vector<T>& collection)
-	{
-		for(typename std::vector<T>::const_iterator it = collection.begin(); it != collection.end(); ++it)
-		{
-			if (elem == *it)
-				return true;
-		}
-		return false;
-	}
-	
-
 	//! Prints std::vector<T> as in Python
 	//! \param collection which should be printed
 	//! \param elem_separator the separator which will be inserted between elements of collection
