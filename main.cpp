@@ -1,4 +1,10 @@
 #include "stl_helper.h"
+#include <list>
+#include <vector>
+#include <set>
+#ifdef MODERN_CPP_AVAILABLE
+	#include <unordered_set>
+#endif
 
 using namespace stl_helper;
 using namespace std;

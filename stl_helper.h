@@ -8,11 +8,8 @@
 */
 
 #include <iostream>
-#include <vector>
-#include <map>
-#include <list>
-#include <set>
 #include <sstream>
+#include <map>
 
 
 // check is the C++11 or greater available (special hack for MSVC)
@@ -22,66 +19,24 @@
 
 
 #ifdef MODERN_CPP_AVAILABLE
-	#include <unordered_set>
 	#include <unordered_map>
 #endif
 
 
 namespace stl_helper
 {
-	//! Prints std::vector<T> as in Python
+	//! Prints std::Container<T> as in Python
 	//! \param collection which should be printed
 	//! \param elem_separator the separator which will be inserted between elements of collection
 	//! \param first_bracket data before collection's elements (usual it is the parenthesis, square or curly bracker '(', '[', '{')
 	//! \param last_bracket data after collection's elements (usual it is the parenthesis, square or curly bracker ')', ']', '}')
-	template<class T>
-	void print(const std::vector<T>& collection, std::string elem_separator = ", ", std::string first_bracket = "[", std::string last_bracket = "]")
+	template<class Container>
+	void print(const Container& collection, std::string elem_separator = ", ", std::string first_bracket = "[", std::string last_bracket = "]")
 	{
 		std::stringstream ss;
-		for(typename std::vector<T>::const_iterator it = collection.begin(); it != collection.end(); ++it)
-		{
-			ss << T(*it) << elem_separator;
-		}
-
-		std::string data = ss.str();
-		if (!data.empty() && !elem_separator.empty())
-			data = data.substr(0, data.rfind(elem_separator));
-
-		std::cout << first_bracket << data << last_bracket << std::endl;
-	}
-
-	//! Prints std::list<T> as in Python
-	//! \param collection which should be printed
-	//! \param elem_separator the separator which will be inserted between elements of collection
-	//! \param first_bracket data before collection's elements (usual it is the parenthesis, square or curly bracker '(', '[', '{')
-	//! \param last_bracket data after collection's elements (usual it is the parenthesis, square or curly bracker ')', ']', '}')
-	template<class T>
-	void print(const std::list<T>& collection, std::string elem_separator = ", ", std::string first_bracket = "[", std::string last_bracket = "]")
-	{
-		std::stringstream ss;
-		for(typename std::list<T>::const_iterator it = collection.begin(); it != collection.end(); ++it)
-		{
-			ss << *it << elem_separator;
-		}
-
-		std::string data = ss.str();
-		if (!data.empty())
-			data.resize(data.length()-elem_separator.length());
-			//data = data.substr(0, data.rfind(elem_separator));
-
-		std::cout << first_bracket << data << last_bracket << std::endl;
-	}
-
-	//! Prints std::set<T> as in Python
-	//! \param collection which should be printed
-	//! \param elem_separator the separator which will be inserted between elements of collection
-	//! \param first_bracket data before collection's elements (usual it is the parenthesis, square or curly bracker '(', '[', '{')
-	//! \param last_bracket data after collection's elements (usual it is the parenthesis, square or curly bracker ')', ']', '}')
-	template<class T>
-	void print(const std::set<T>& collection, std::string elem_separator = ", ", std::string first_bracket = "[", std::string last_bracket = "]")
-	{
-		std::stringstream ss;
-		for(typename std::set<T>::const_iterator it = collection.begin(); it != collection.end(); ++it)
+		typename Container::const_iterator it = collection.begin();
+		for (; it != collection.end(); ++it)
+		//for(typename std::vector<T>::const_iterator it = collection.begin(); it != collection.end(); ++it)
 		{
 			ss << *it << elem_separator;
 		}
@@ -92,7 +47,6 @@ namespace stl_helper
 
 		std::cout << first_bracket << data << last_bracket << std::endl;
 	}
-
 
 	//! Prints std:map<T, U> as in Python
 	//! \param collection which should be printed
@@ -119,26 +73,7 @@ namespace stl_helper
 
 	// Only for modern C++ 
 #ifdef MODERN_CPP_AVAILABLE
-	//! Prints std::unordered_set<T> as in Python
-	//! \param collection which should be printed
-	//! \param elem_separator the separator which will be inserted between elements of collection
-	//! \param first_bracket data before collection's elements (usual it is the parenthesis, square or curly bracker '(', '[', '{')
-	//! \param last_bracket data after collection's elements (usual it is the parenthesis, square or curly bracker ')', ']', '}')
-	template<class T>
-	void print(const std::unordered_set<T>& collection, std::string elem_separator = ", ", std::string first_bracket = "[", std::string last_bracket = "]")
-	{
-		std::stringstream ss;
-		for(typename std::unordered_set<T>::const_iterator it = collection.begin(); it != collection.end(); ++it)
-		{
-			ss << *it << elem_separator;
-		}
 
-		std::string data = ss.str();
-		if (!data.empty() && !elem_separator.empty())
-			data = data.substr(0, data.rfind(elem_separator));
-
-		std::cout << first_bracket << data << last_bracket << std::endl;
-	}
 
 	//! Prints std:unordered_map<T, U> as in Python
 	//! \param collection which should be printed
