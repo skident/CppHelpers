@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.6)
-project(Operator_in)
+project(Cpp_helper)
 
 # define the project
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
@@ -12,4 +12,4 @@ set(HEADERS
 		stl_helper.h
 )
 
-add_executable(Operator_in ${SOURCES} ${HEADERS})
+add_executable(${CMAKE_PROJECT_NAME} ${SOURCES} ${HEADERS})
