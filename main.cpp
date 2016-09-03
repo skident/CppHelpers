@@ -1,3 +1,13 @@
+/*! \file       main.cpp
+ *  \brief      Usage of helpers
+ *
+ *  Here is the detail usage of STL helpers.
+ *
+ *  \author     Skident
+ *  \date       03.09.2016
+ *  \copyright  Skident Inc.
+ */
+
 #include "stl_helper.h"
 #include <list>
 #include <vector>

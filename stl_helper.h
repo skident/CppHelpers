@@ -1,9 +1,13 @@
-/*! \file   stl_helper.h
-	\brief	Useful functions for work with STL containers. 
-			1. Now it supports generic print for STL containers (vector, list, map) like: [elem1, elem2, elem3]
-			2. And syntax sugar for checking is element exists in std::vector, usage: if (x in container) ..
-    \author Skident
-    \date   02.09.2016
+/*! \file   	stl_helper.h
+	\brief		Useful functions for work with STL containers. 
+			
+	Now it supports generic print for STL containers like: [elem1, elem2, elem3]
+	Supported STL conrainers: vector, deque, list, set, unordered_set, map,
+	unordered_map, array
+
+    \author 	Skident
+    \date   	02.09.2016
+    \copyrigth	Skident Inc.
 */
 
 // check is the C++11 or greater available (special hack for MSVC)
