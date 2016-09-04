@@ -1,14 +1,14 @@
 /*! \file   	stl_helper.h
-	\brief		Useful functions for work with STL containers. 
-			
-	Now it supports generic print for STL containers like: [elem1, elem2, elem3]
-	Supported STL conrainers: vector, deque, list, set, unordered_set, map,
-	unordered_map, array
-
-    \author 	Skident
-    \date   	02.09.2016
-    \copyrigth	Skident Inc.
-*/
+ *	\brief		Useful functions for work with STL containers. 
+ *			
+ *	Now it supports generic print for STL containers like: [elem1, elem2, elem3]
+ *	Supported STL conrainers: vector, deque, list, set, unordered_set, map,
+ *	unordered_map, array
+ *
+ *  \author 	Skident
+ *  \date   	02.09.2016
+ *  \copyrigth	Skident Inc.
+ */
 
 // check is the C++11 or greater available (special hack for MSVC)
 #if (defined(_MSC_VER) && __cplusplus >= 199711L) || __cplusplus >= 201103L
@@ -89,8 +89,12 @@ namespace stl_helper
 		PRINT_CONTENT
 	}
 
-
-	// Print std::array handler
+	//! Prints std:array<T, Size> as in Python
+	//! \param collection which should be printed
+	//! \param elem_separator the separator which will be inserted between elements of collection
+	//! \param keyval_separator separator between key and value of map. For default it is the '=>'
+	//! \param first_bracket data before collection's elements (usual it is the parenthesis, square or curly bracker '(', '[', '{')
+	//! \param last_bracket data after collection's elements (usual it is the parenthesis, square or curly bracker ')', ']', '}')
 	template<template <class T, std::size_t N> class Array, class Type, std::size_t Size>
 	void print(const Array<Type, Size>& collection,
 				std::string elem_separator = ", ", 
