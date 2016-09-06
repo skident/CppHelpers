@@ -9,11 +9,12 @@
  */
 
 #include "stl_helper.h"
+#include <string>
 #include <list>
 #include <vector>
 #include <set>
 #include <deque>
-#include <queue>          
+#include <queue>
 
 #ifdef MODERN_CPP_AVAILABLE
 	#include <unordered_set>
@@ -102,11 +103,6 @@ void test_stl_helpers_C03()
   	for (int i=1; i<6; i++) mydeque.push_back(i*2); // 2 4 6 8 10
   	cout << "deque: ";
   	print(mydeque);
-
-  	// // 6. Test queue
-  	// std::queue<int> myints;
-  	// for (int i=0; i<5; i++) myints.push(i*3);
-  	// print(myints);
 }
 
 
@@ -145,9 +141,47 @@ void test_stl_helpers_C03_own_type()
 	print(vecStr);
 }
 
+void test_trim()
+{
+	// ltrim
+	cout << "========================" << endl;
+	cout << "ltrim test" << endl;
+	cout << "========================" << endl;
+	cout << "Test #1 " << "'" << ltrim("") << "'" << endl;
+	cout << "Test #2 " << "'" << ltrim("12345") << "'" << endl;
+	cout << "Test #3 " << "'" << ltrim("   12345   ") << "'" << endl;
+	cout << "Test #4 " << "'" << ltrim("           ") << "'" << endl;
+	cout << "Test #5 " << "'" << ltrim("          1") << "'" << endl;
+	cout << "Test #6 " << "'" << ltrim("1         1") << "'" << endl;
+
+	// rtrim
+	cout << "========================" << endl;
+	cout << "rtrim test" << endl;
+	cout << "========================" << endl;
+	cout << "Test #1 " << "'" << rtrim("") << "'" << endl;
+	cout << "Test #2 " << "'" << rtrim("12345") << "'" << endl;
+	cout << "Test #3 " << "'" << rtrim("   12345   ") << "'" << endl;
+	cout << "Test #4 " << "'" << rtrim("           ") << "'" << endl;
+	cout << "Test #5 " << "'" << rtrim("1          ") << "'" << endl;
+	cout << "Test #6 " << "'" << rtrim("1         1") << "'" << endl;
+
+	// trim
+	cout << "========================" << endl;
+	cout << "trim test" << endl;
+	cout << "========================" << endl;
+	cout << "Test #1 " << "'" << trim("") << "'" << endl;
+	cout << "Test #2 " << "'" << trim("12345") << "'" << endl;
+	cout << "Test #3 " << "'" << trim("   12345   ") << "'" << endl;
+	cout << "Test #4 " << "'" << trim("           ") << "'" << endl;
+	cout << "Test #5 " << "'" << trim("          1") << "'" << endl;
+	cout << "Test #6 " << "'" << trim("1          ") << "'" << endl;
+	cout << "Test #7 " << "'" << trim("1         1") << "'" << endl;
+}
+
 int main()
 {
 	test_stl_helpers_C03();
 	test_stl_helpers_C11();
 	test_stl_helpers_C03_own_type();
+	test_trim();
 }
