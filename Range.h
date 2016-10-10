@@ -6,7 +6,7 @@
  *
  *  \author 	Skident
  *  \date   	06.10.2016
- *  \copyrigth	Skident Inc.
+ *  \copyright  Skident inc.
  */
 
 #include <map>
@@ -21,6 +21,32 @@ public:
 	const static bool strict_bound = true;
 	const static bool not_strict_bound = false;
 
+	//! Default constructor
+	Range()
+	{
+		
+	}
+
+	//! Copy constructor
+	Range(const Range& rhs)
+	{
+		if (this != &rhs)
+			m_storage = rhs.m_storage;
+	}
+
+	//! Copy constructor
+	Range& operator=(const Range& rhs)
+	{
+		m_storage = rhs.m_storage;
+		return *this;
+	}
+
+	//! Destructor
+	virtual ~Range() 
+	{
+		
+	}
+
 	//! Add new range into container
 	//! \param range min and max values for range
 	void insert(MinMax range)
@@ -33,7 +59,7 @@ public:
 	//! \param strictLowerLimit if true then value should be greater than lower limit of range, false - they can be equal
 	//! \param strictUpperLimit if true then value should be lower than upper limit of range, false - they can be equal
 	//! \return true if some range containes the value, false - otherwise
-	bool find(T value, bool strictLowerLimit = strict_bound, bool strictUpperLimit = not_strict_bound)
+	bool find(T value, bool strictLowerLimit = strict_bound, bool strictUpperLimit = not_strict_bound) const
 	{
 		// storage is empty. Nothing to do here.
 		if (m_storage.empty())
@@ -67,6 +93,11 @@ public:
 		m_storage.clear();
 	}
 
+	bool empty() const
+	{
+		return m_storage.empty();
+	}
+
 	//! print all ranges
 	void print()
 	{
@@ -74,10 +105,20 @@ public:
 			std::cout << it.first << " : " << it.second << std::endl;
 	}
 
+	bool operator==(const Range& rhs)
+	{
+		return (m_storage == rhs.m_storage);
+	}
+
+	bool operator!=(const Range& rhs)
+	{
+		return (m_storage != rhs.m_storage);
+	}
+
 private:
 	std::multimap<T, T> m_storage;
 
-	bool isInRange(MinMax range, T value, bool strictLowerLimit, bool strictUpperLimit)
+	bool isInRange(const MinMax& range, const T& value, bool strictLowerLimit, bool strictUpperLimit) const
 	{
 		if (strictLowerLimit && range.first == value)
 			return true;
@@ -90,4 +131,3 @@ private:
 		return false;
 	}
 };
-
