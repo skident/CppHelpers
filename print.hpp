@@ -51,7 +51,7 @@
 		std::cout << first_bracket << data << last_bracket << std::endl;	\
 
 
-namespace stl_helper
+namespace eos
 {
 	//! Prints std::Container<T> as in Python
 	//! Supported containers: vector, deque, list, set, unordered_set(C++11), forward_list(C++11)

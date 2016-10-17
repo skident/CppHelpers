@@ -1,15 +1,18 @@
-cmake_minimum_required(VERSION 2.6)
-project(Cpp_helper)
+cmake_minimum_required(VERSION 3.0)
+project(eos)
 
 # define the project
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
-## Target
-set(SOURCES 
-		main.cpp
-)
-set(HEADERS 	
-		stl_helper.h
+
+set(SOURCES 	
+		dummy.cpp  # just for cmake
 )
 
-add_executable(${CMAKE_PROJECT_NAME} ${SOURCES} ${HEADERS})
+set(HEADERS 	
+		print.hpp
+		range.hpp
+)
+
+add_library(${CMAKE_PROJECT_NAME} STATIC ${SOURCES} ${HEADERS})
+#add_executable(${CMAKE_PROJECT_NAME} ${SOURCES} ${HEADERS})
