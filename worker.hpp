@@ -1,11 +1,31 @@
-#ifndef TASK_H
-#define TASK_H
+#pragma once
 
+#include <thread>
+#include "event.hpp"
 
-class task
+namespace eos
 {
-public:
-    task();
-};
+    class worker
+    {
+    public:
+        worker();
+        virtual ~worker() = 0;
 
-#endif // TASK_H
+        virtual void run();
+        virtual void cancel();
+        virtual void join();
+
+        virtual void task() = 0;
+
+    protected:
+//        std::atomic<bool> m_canceled;
+        std::atomic<bool> m_started;
+        event m_action;
+
+       virtual void reset();
+
+    private:
+        std::thread m_thread;
+    };
+}
+
