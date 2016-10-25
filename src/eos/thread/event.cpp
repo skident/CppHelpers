@@ -1,4 +1,5 @@
-#include "event.hpp"
+//#include "event.hpp"
+#include "eos/thread/event.hpp"
 #include <iostream>
 
 using namespace std;

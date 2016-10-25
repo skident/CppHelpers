@@ -1,4 +1,5 @@
-#include "worker.hpp"
+//#include "worker.hpp"
+#include "eos/thread/worker.hpp"
 #include <iostream>
 
 using namespace std;

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "worker.hpp"
+#include "eos/thread/worker.hpp"
 
 class test_task : public eos::worker
 {

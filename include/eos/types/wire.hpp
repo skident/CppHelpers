@@ -70,29 +70,29 @@ namespace eos
 
         wire& operator+(const wire& value)
         {
-            std::string res = value;
-            m_container += res;
+           /* std::string res = value;
+            m_container += res;*/
             return *this;
         }
 
         wire& operator+(const char* value)
-        {
+        {/*
             std::string res = wire(value);
-            m_container += res;
+            m_container += res;*/
             return *this;
         }
 
-        wire& operator+(const char value)
-        {
+        wire& operator+(const char value);
+       /* {
             std::string res = wire(value);
             m_container += res;
             return *this;
-        }
+        }*/
 
 
         wire& operator+=(const wire& value)
         {
-            std::string res = value;
+            std::string res = value.str();
             m_container += res;
             return *this;
         }
@@ -128,10 +128,14 @@ namespace eos
         std::size_t length() const;
         bool empty() const;
         bool contains(const wire& substr) const;
+		std::string str() const
+		{
+			return m_container;
+		}
 
         wire& append(const wire& tail)
         {
-            std::string tmp = tail;
+            std::string tmp = tail.str();
             m_container.append(tmp);
             return *this;
         }

@@ -3,16 +3,24 @@ project(eos)
 
 # define the project
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+set(CMAKE_BUILD_TYPE Release)
+
+# which directories will be include to project. Used for includes in code
+# like this #include <include/eos/io/print.hpp> or #include <eos/io/print.hpp>
+include_directories(${CMAKE_SOURCE_DIR} ${CMAKE_SOURCE_DIR}/include)
+
+# Find source files
+file(GLOB_RECURSE INCLUDES include/*.hpp)
+file(GLOB_RECURSE SOURCES src/*.cpp)
 
 
-set(SOURCES 	
-		dummy.cpp  # just for cmake
-)
+# Create static library
+add_library(${PROJECT_NAME} STATIC ${INCLUDES} ${SOURCES})
 
-set(HEADERS 	
-		print.hpp
-		range.hpp
-)
+# Install library
+install(TARGETS ${PROJECT_NAME} DESTINATION lib/${PROJECT_NAME})
 
-add_library(${CMAKE_PROJECT_NAME} STATIC ${SOURCES} ${HEADERS})
-#add_executable(${CMAKE_PROJECT_NAME} ${SOURCES} ${HEADERS})
+
+
+add_subdirectory (Samples) 
+# add_subdirectory (Tests) 

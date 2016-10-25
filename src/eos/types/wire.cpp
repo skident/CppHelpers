@@ -1,6 +1,7 @@
-#include "wire.hpp"
+#include "eos/types/wire.hpp"
+#include <cctype>
 #include <exception>
-
+#include <stdexcept>
 
 using namespace std;
 
@@ -63,6 +64,15 @@ std::ostream& wire::operator<<(std::ostream& os)
 {
     os << m_container;
     return os;
+}
+
+
+wire& wire::operator+(const char value)
+{
+	m_container.append(1, value);
+    /*std::string res = wire(value);
+    m_container += res;*/
+    return *this;
 }
 
 
@@ -159,7 +169,7 @@ bool wire::empty() const
 
 bool wire::contains(const wire& substr) const
 {
-    string primitiveSubstr = substr;
+    string primitiveSubstr = substr.str();
     bool found = m_container.find(primitiveSubstr) != string::npos; //trick for debugging
     return found;
 }
@@ -172,7 +182,7 @@ wire& wire::substr(int from, int to)
 
 wire& wire::remove(const wire& substr)
 {
-    string primitiveSubstr = substr;
+    string primitiveSubstr = substr.str();
     auto pos = m_container.find(primitiveSubstr);
     if (pos != string::npos)
         m_container = m_container.substr(0, pos) + m_container.substr(pos+primitiveSubstr.length());
@@ -183,7 +193,7 @@ wire& wire::remove(const wire& substr)
 wire& wire::removeAll(const wire& substr)
 {
     string workCopy = m_container;
-    string primitiveSubstr = substr;
+    string primitiveSubstr = substr.str();
     while(true)
     {
         auto pos = workCopy.find(primitiveSubstr);
@@ -201,7 +211,7 @@ std::vector<wire> wire::split(const wire& separator) const
 {
     vector<wire> chunks;
     string tmp = m_container;
-    string primitiveSeparator = separator;
+    string primitiveSeparator = separator.str();
     for(;;)
     {
         auto pos = tmp.find(primitiveSeparator);
@@ -274,19 +284,19 @@ wire::const_reverse_iterator wire::crend()
 /// Test code!!! Shoud be moved to its own file ///
 
 #include <sstream>
-#include <print.hpp>
+#include <eos/io/print.hpp>
 
 int main()
 {
     using namespace eos;
 
     // test casts from string <-> String
-    {
+   /* {
     string res = wire("Implicit cast test");
     wire res2 = res;
     cout << "string vaue: '" << res << "', String value: '" << res2 << "'" << endl;
     }
-
+*/
     // test working with streams
     {
     wire str("Work with streams str");
@@ -371,12 +381,12 @@ int main()
 
         str3 += wire(n) + "112" + 'c';
 
-        for (int i = 0 ; i < 10; i++)
+      /*  for (int i = 0 ; i < 10; i++)
         {
             str = str + i;
             str2 += i;
         }
-
+*/
 
 
         cout << str << endl;
