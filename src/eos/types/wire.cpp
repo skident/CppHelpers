@@ -1,6 +1,5 @@
 #include "eos/types/wire.hpp"
 #include <cctype>
-#include <exception>
 #include <stdexcept>
 
 using namespace std;
@@ -66,6 +65,25 @@ std::ostream& wire::operator<<(std::ostream& os)
     return os;
 }
 
+wire& wire::operator+(const char* value)
+{
+    m_container += string(value);
+    return *this;
+}
+
+wire& wire::operator+(const char value)
+{
+    m_container.append(1, value);
+    return *this;
+}
+
+
+wire& wire::operator+=(const wire& value)
+{
+    m_container += value.str();
+    return *this;
+}
+    
 // return space if data is empty
 wire::operator char()
 {
@@ -197,6 +215,17 @@ wire& wire::removeAll(const wire& substr)
     return *this;
 }
 
+    
+std::vector<wire> wire::split(void) const
+{
+    vector<wire> chunks;
+    for (size_t i = 0; i < m_container.length(); i++)
+    {
+        chunks.emplace_back(m_container[i]);
+    }
+    return chunks;
+}
+    
 std::vector<wire> wire::split(const wire& separator) const
 {
     vector<wire> chunks;
@@ -221,9 +250,24 @@ std::vector<wire> wire::split(const wire& separator) const
 }
 
 
+wire& wire::reverse(void)
+{
+    auto halfSize = m_container.size()/2;
+    char tmp;
+    for (size_t i = 0, j = m_container.size()-1; i < halfSize; i++, j--)
+    {
+        tmp = m_container[i];
+        m_container[i] = m_container[j];
+        m_container[j] = tmp;
+    }
+    return *this;
+}
+    
+    
 /////////////////////
 // Iterators
-
+// Just return the iterators of std::string
+    
 wire::iterator wire::begin()
 {
     return m_container.begin();

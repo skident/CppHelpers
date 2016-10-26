@@ -1,5 +1,5 @@
-rm -rf ./built 
-mkdir ./built
-cd ./built
-cmake ../
-# pause
+sudo rm -rf built /y
+mkdir built
+cd built
+pwd
+cmake -G Xcode ../ && make

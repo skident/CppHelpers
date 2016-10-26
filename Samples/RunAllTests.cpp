@@ -2,7 +2,7 @@
 
 #include "sample_output.hpp"
 #include "sample_range.hpp"
-#include "sample_wire.cpp"
+#include "sample_wire.hpp"
 
 using namespace std;
 

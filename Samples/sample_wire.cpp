@@ -7,53 +7,89 @@
 //
 
 #include "sample_wire.hpp"
-
-
-//////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////
-/// Test code!!! Shoud be moved to its own file ///
-
 #include <sstream>
-#include <eos/io/print.hpp>
 #include <iostream>
 #include <string>
+#include <algorithm>
+#include <iterator>
+
+
 #include <eos/types/wire.hpp>
+#include <eos/io/print.hpp>
 
 using namespace std;
 using namespace eos;
 
-void run_wire_samples()
+void sample_implicit_casts()
 {
-    // test casts from string <-> String
+    cout << endl;
+    cout << "=========================================" << endl;
+    cout << "           Implicit casts samples        " << endl;
+    cout << "=========================================" << endl;
+
+    
+    // test casts from std::string <-> eos::wire
     {
         string res = wire("Implicit cast test");
-        wire res2 = res;
-        cout << "string vaue: '" << res << "', String value: '" << res2 << "'" << endl;
+        wire res2 = res;    // case from std::string to wire
+        cout << "std::string vaue: '" << res << "', eos::wire value: '" << res2 << "'" << endl;
     }
     
-    // test working with streams
+    // implicit casts
     {
-        wire str("Work with streams str");
-        stringstream ss;
+        int digit = wire(123);                              // digit == 123
+        short shortDigit = wire(321*2);                     // shortDigit == 642
+        const long long bigData = wire(12345212345676542);  // bigData == 12345212345676542
+        const char symbol = wire("qwerty");                 // symbol == 'q'
+        char symbol2 = wire();                              // symbol2 == ' '
         
-        ss << str;
-        cout << str << endl;
-        cout << ss.str() << endl; // the remain part
+        cout << digit << endl;
+        cout << shortDigit << endl;
+        cout << bigData << endl;
+        cout << symbol << endl;
+        cout << "'" << symbol2 << "'" << endl;  // quotes for show the space
     }
-    
-    
-    // test trim(s)
+}
+
+
+void sample_algorithms_usage()
+{
+    cout << endl;
+    cout << "=========================================" << endl;
+    cout << "          std::algorithms usage          " << endl;
+    cout << "=========================================" << endl;
+
     {
-        wire test("  123   ");
-        cout << test << endl;
-        // trim changes the real object
-        cout << "'" << wire(test).ltrim() << "'" << endl;
-        cout << "'" << wire(test).rtrim() << "'" << endl;
-        cout << "'" << wire(test).trim() << "'" << endl;
+        wire str("pvdqsx");
+        cout << "Value: " << str << endl;
+        
+        for (auto& symbol : str)
+        {
+            symbol++;
+        }
+        
+        cout << "Changed value: ";
+        for (const auto& symbol : str)
+        {
+            cout << symbol << " : ";
+        }
+        cout << endl;
+        
+        cout << "Reversed: " << str.reverse() << endl;
+        
+        string s;
+        transform(str.begin(), str.end(), back_inserter(s), (int (*)(int))toupper);
+        cout << "Upper Case: " << s << endl;
+
     }
-    
+}
+
+void sample_of_modifications()
+{
+    cout << endl;
+    cout << "=========================================" << endl;
+    cout << "          eos::wire modifications        " << endl;
+    cout << "=========================================" << endl;
     
     // test substr
     {
@@ -73,43 +109,7 @@ void run_wire_samples()
         wire word("abcabab");
         cout << word.removeAll("ab") << endl;
     }
-    
-    
-    // Test split string on chunks
-    {
-        wire str(1234512367123);
-        cout << str.split(12) << endl;
-    }
-    
-    
-    // Test constructor with char
-    {
-        wire charObj('c');
-        cout << charObj << endl;
-    }
-    
-    // Test contains method
-    {
-        wire res(33344511);
-        cout << "Does contain digit 3? " << res.contains(3) << endl;
-        cout << "Does contain digit 0? " << res.contains(0) << endl;
-    }
-    
-    // implicit casts
-    {
-        int digit = wire(123);
-        short shortDigit = wire(321);
-        const long long bigData = wire(12345212345676543);
-        const char symbol = wire("qwerty");
-        char symbol2 = wire();
-        
-        cout << digit << endl;
-        cout << shortDigit << endl;
-        cout << bigData << endl;
-        cout << symbol << endl;
-        cout << "'" << symbol2 << "'" << endl;
-    }
-    
+
     // concatenate test
     {
         wire str, str2, str3;
@@ -130,13 +130,56 @@ void run_wire_samples()
         cout << str3 << endl;
     }
     
-    
-    // Tests with iterators
+    // test trim(s)
     {
-        wire str("qwerty");
-        for (const auto& symbol : str)
-            cout << symbol << " : ";
-        cout << endl;
+        wire test("  123   ");
+        cout << test << endl;
+        // trim changes the real object
+        cout << "ltrim '" << wire(test).ltrim() << "'" << endl;
+        cout << "rtrim '" << wire(test).rtrim() << "'" << endl;
+        cout << "trim '" << wire(test).trim() << "'" << endl;
     }
     
+    // test working with streams
+    {
+        wire str("Work with streams str");
+        stringstream ss;
+        
+        ss << str;
+        cout << str << endl;
+        cout << ss.str() << endl; // the remain part
+    }
+    
+    
+    // Test split string on chunks
+    {
+        wire str(1234512367123);
+        cout << str.split(12) << endl;
+        cout << str.split() << endl;
+    }
+    
+    
+    // Test constructor with char
+    {
+        wire charObj('c');
+        cout << charObj << endl;
+        cout << charObj[0] << endl;
+        charObj[0] = 'd';
+    }
+    
+    // Test contains method
+    {
+        wire res(33344511);
+        cout << "Does contain digit 3? " << res.contains(3) << endl;
+        cout << "Does contain digit 0? " << res.contains(0) << endl;
+    }
+
+
+}
+
+void run_wire_samples()
+{
+    sample_implicit_casts();
+    sample_algorithms_usage();
+    sample_of_modifications();
 }
