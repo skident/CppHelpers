@@ -11,3 +11,5 @@ public:
     void task() override;
 };
 
+
+void sample_worker_usage();

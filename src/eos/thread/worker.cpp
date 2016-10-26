@@ -1,4 +1,3 @@
-//#include "worker.hpp"
 #include "eos/thread/worker.hpp"
 #include <iostream>
 
@@ -8,7 +7,6 @@ namespace eos
 {
     worker::worker()
     {
-//        m_canceled.store(false);
         m_started.store(false);
 
         cout << "Worker has born" << endl;
@@ -32,32 +30,10 @@ namespace eos
         cout << "Thread works..." << endl;
     }
 
-//    void worker::task() //= 0;
-//    {
-//        for (;;)
-//        {
-//            // do some work
-//            auto state = m_action.wait(1000);
-//            if (state.canceled())
-//                break;
-
-//            if (state.notified())
-//            {
-//                // do something
-//            }
-
-//            if (state.expired())
-//            {
-//                // timeout
-//            }
-//        }
-//    }
 
     void worker::cancel()
     {
         cout << "Cancel received!" << endl;
-//        m_canceled.store(true);
-
         m_action.cancel();
     }
 
@@ -79,7 +55,6 @@ namespace eos
 
     void worker::reset()
     {
-//        m_canceled.store(false);
         m_started.store(false);
         m_action.reset();
     }

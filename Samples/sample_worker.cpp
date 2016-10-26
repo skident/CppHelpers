@@ -1,4 +1,4 @@
-#include "test_task.hpp"
+#include "sample_worker.hpp"
 
 #include <iostream>
 #include <memory>
@@ -42,17 +42,15 @@ void test_task::task()
 
 
 
-//int main()
-//{
-//    unique_ptr<eos::worker> work1(new test_task());
-//    work1->run();
+void sample_worker_usage()
+{
+    unique_ptr<eos::worker> work1(new test_task());
+    work1->run();
 
-//    this_thread::sleep_for(chrono::milliseconds(100));
-//    cout << "Send cancel signal!" << endl;
-//    this_thread::sleep_for(chrono::milliseconds(100));
+    this_thread::sleep_for(chrono::milliseconds(100));
+    cout << "Send cancel signal!" << endl;
+    this_thread::sleep_for(chrono::milliseconds(100));
 
-//    work1->cancel();
-//    work1->join();
-
-//    return 0;
-//}
+    work1->cancel();
+    work1->join();
+}
