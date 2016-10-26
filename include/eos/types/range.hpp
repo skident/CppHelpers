@@ -10,6 +10,7 @@
  */
 
 #include <map>
+#include <eos/io/print.hpp>
 #include <iostream>
 
 namespace eos
@@ -107,6 +108,10 @@ namespace eos
 				std::cout << it.first << " : " << it.second << std::endl;
 		}
 
+        template<class U>
+		friend std::ostream& operator<<(std::ostream& os, const Range<U>& obj);
+		
+
 		bool operator==(const Range& rhs)
 		{
 			return (m_storage == rhs.m_storage);
@@ -133,4 +138,16 @@ namespace eos
 			return false;
 		}
 	};
+    
+
+    template <class U>
+    std::ostream& operator<<(std::ostream& os, const Range<U>& obj)
+    {
+    	os << obj.m_storage;
+    	return os;
+    }
+    
+
 };
+
+

@@ -10,6 +10,7 @@ file(GLOB_RECURSE INCLUDES *.h*)
 file(GLOB_RECURSE INCLUDES *.hpp)
 file(GLOB_RECURSE SOURCES *.cpp)
 
+#add_subdirectory(gtest)
 
 # which directories will be include to project. Used for includes in code
 # like this #include <include/eos/io/print.hpp> or #include <eos/io/print.hpp>

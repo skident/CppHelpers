@@ -3,7 +3,7 @@ project(eos_samples)
 
 # define the project
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
-# set(CMAKE_BUILD_TYPE Release)
+set(CMAKE_BUILD_TYPE Release)
 
 
 # which directories will be include to project. Used for includes in code

@@ -70,24 +70,24 @@ namespace eos
 
         wire& operator+(const wire& value)
         {
-           /* std::string res = value;
-            m_container += res;*/
+            std::string res = value;
+            m_container += res;
             return *this;
         }
 
         wire& operator+(const char* value)
-        {/*
-            std::string res = wire(value);
-            m_container += res;*/
-            return *this;
-        }
-
-        wire& operator+(const char value);
-       /* {
+        {
             std::string res = wire(value);
             m_container += res;
             return *this;
-        }*/
+        }
+
+        wire& operator+(const char value)
+        {
+            std::string res = wire(value);
+            m_container += res;
+            return *this;
+        }
 
 
         wire& operator+=(const wire& value)
