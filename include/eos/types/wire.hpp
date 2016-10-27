@@ -1,3 +1,12 @@
+/*! \file   	wire.hpp
+*	\brief		The wrapper under std::string with wide functionality.
+*
+*  \author 		Skident
+*  \date   		27.10.2016
+*  \copyright	Skident Inc.
+*/
+
+
 #pragma once
 
 #include <string>

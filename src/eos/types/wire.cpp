@@ -1,3 +1,12 @@
+/*! \file   	wire.cpp
+*	\brief		The wrapper under std::string with wide functionality.
+*
+*  \author 		Skident
+*  \date   		27.10.2016
+*  \copyright	Skident Inc.
+*/
+
+
 #include "eos/types/wire.hpp"
 #include <cctype>
 #include <stdexcept>

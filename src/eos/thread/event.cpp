@@ -1,71 +1,78 @@
-//#include "event.hpp"
+/*! \file   	event.cpp
+*	\brief
+*
+*  \author 		Skident
+*  \date   		27.10.2016
+*  \copyright	Skident Inc.
+*/
+
+
 #include "eos/thread/event.hpp"
-#include <iostream>
 
 using namespace std;
 
 namespace eos
 {
     //////////////////////////////
-    /// event::status implementation
+    /// event::sleeper implementation
     //////////////////////////////
-    event::status::status()
+    event::sleeper::sleeper()
     {
 
     }
 
-    event::status::status(const status& rhs)
+    event::sleeper::sleeper(const sleeper& rhs)
     {
         m_canceled.store(rhs.m_canceled);
-        m_notofied.store(rhs.m_notofied);
+        m_notified.store(rhs.m_notified);
         m_expired.store(rhs.m_expired);
     }
 
-    event::status& event::status::operator=(const status& rhs)
+    event::sleeper& event::sleeper::operator=(const sleeper& rhs)
     {
         if (this != &rhs)
         {
             m_canceled.store(rhs.m_canceled);
-            m_notofied.store(rhs.m_notofied);
+            m_notified.store(rhs.m_notified);
             m_expired.store(rhs.m_expired);
         }
 
         return *this;
     }
 
-    event::status::~status()
+    event::sleeper::~sleeper()
     {
 
     }
 
-    bool event::status::canceled() const
+    bool event::sleeper::canceled() const
     {
         return m_canceled;
     }
 
-    bool event::status::notified() const
+    bool event::sleeper::notified() const
     {
-        return m_notofied;
+        return m_notified;
     }
 
-    bool event::status::expired() const
+    bool event::sleeper::expired() const
     {
         return m_expired;
     }
 
-    bool event::status::risen() const
+    bool event::sleeper::awaked() const
     {
          return (canceled() || notified() || expired());
     }
 
-    void event::status::reset()
+    void event::sleeper::reset()
     {
         m_canceled.store(false);
-        m_notofied.store(false);
+        m_notified.store(false);
         m_expired.store(false);
     }
 
-    void event::status::rise(eRiseReason reason)
+    void event::sleeper::shake(eRiseReason reason)
     {
         switch(reason)
         {
@@ -74,7 +81,7 @@ namespace eos
             break;
 
         case updates:
-            m_notofied.store(true);
+            m_notified.store(true);
             break;
 
         case cancellation:
@@ -96,61 +103,44 @@ namespace eos
     {
 
     }
-
-
+	
     void event::cancel()
     {
-        cout << "event::cancel" << endl;
-        m_status.rise(status::cancellation);
-//        m_canceled.store(true);
-         dump();
-         std::unique_lock<std::mutex> ul(m_mutex);
-         m_condVar.notify_all();
+		m_sleeper.shake(sleeper::cancellation);
+        unique_lock<mutex> ul(m_mutex);
+        m_condVar.notify_all();
     }
 
     void event::notify()
     {
-         cout << "event::notify" << endl;
-         m_status.rise(status::updates);
-//        m_notification.store(true);
-        std::unique_lock<std::mutex> ul(m_mutex);
+        m_sleeper.shake(sleeper::updates);
+        unique_lock<mutex> ul(m_mutex);
         m_condVar.notify_all();
     }
 
-    event::status event::wait(const milliseconds& timeout)
+    event::sleeper event::wait(const milliseconds& timeout)
     {
         auto spuriousProtection = [this]()
         {
-            return m_status.risen() == true;
+            return m_sleeper.awaked() == true;
         };
 
         {
             bool isNotified;
-            std::unique_lock<std::mutex> ul(m_mutex);
+            unique_lock<mutex> ul(m_mutex);
             isNotified = m_condVar.wait_for(
                                 ul,
-                                std::chrono::milliseconds(timeout),
+                                chrono::milliseconds(timeout),
                                 spuriousProtection
             );
             if (!isNotified)
-                m_status.rise(status::timeout);
+                m_sleeper.shake(sleeper::timeout);
         }
-
-        dump();
-        return m_status;
+        return m_sleeper;
     }
 
     void event::reset()
     {
-        m_status.reset();
-    }
-
-
-
-    void event::dump()
-    {
-        cout << "canceled: " << m_status.canceled()
-             << " notified: " << m_status.notified()
-             << " expired: " << m_status.expired() << endl;
+        m_sleeper.reset();
     }
 }

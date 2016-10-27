@@ -1,4 +1,15 @@
-//#include "print.hpp"
+/*! \file   	print.cpp
+*	\brief		Useful functions for work with STL containers.
+*
+*	Now it supports generic print for STL containers like: [elem1, elem2, elem3]
+*	Supported STL conrainers: vector, deque, list, set multiset, unordered_set,
+*  map, multimap, unordered_map, array
+*
+*  \author 		Skident
+*  \date   		02.09.2016
+*  \copyright	Skident Inc.
+*/
+
 #include "eos/io/print.hpp"
 
 namespace eos

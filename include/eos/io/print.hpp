@@ -1,4 +1,4 @@
-/*! \file   	stl_helper.h
+/*! \file   	print.hpp
  *	\brief		Useful functions for work with STL containers. 
  *			
  *	Now it supports generic print for STL containers like: [elem1, elem2, elem3]
