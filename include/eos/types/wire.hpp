@@ -48,6 +48,9 @@ namespace eos
         const_reverse_iterator crend();
         
         
+        static const std::size_t npos = -1;
+
+        
         // constructors
         wire();
         wire(const std::string& value);
@@ -101,7 +104,7 @@ namespace eos
         wire& operator+(const char value);
 
         wire& operator+=(const wire& value);
-
+        
         wire operator[](std::size_t idx);
 
         std::ostream& operator<<(std::ostream& os);
@@ -118,16 +121,28 @@ namespace eos
         friend std::ostream& operator<<(std::ostream& os, wire rhs);
 
 
-
         // Useful methods
         wire& trim();
         wire& rtrim();
         wire& ltrim();
-
-
-        wire& substr(int from, int to);
-        wire& remove(const wire& substr);
-        wire& removeAll(const wire& substr);
+        
+        wire multiply(std::size_t times) const;
+        
+        //! get sub-wire from current wire
+        //! \param from position from which new wire should be started
+        //! \param to the index of the end of the new sub-wire
+        wire substr(int from, int to = npos) const;
+        
+        //! remove all chuks
+        //! \param chunk the substring which should be removed
+        wire& remove(const wire& chunk);
+        
+        //! Replace all found substrings by new substring.
+        wire& replace(const wire& substr, const wire& newsubstr);
+        
+        wire masking(wire mask, int unmaskedLeft, int unmaskedRight = npos) const;
+        
+        wire padding(wire mask, int leftCount, int rightCount = npos) const;
         
         std::vector<wire> split(void) const;
         std::vector<wire> split(const wire& separator) const;
@@ -135,18 +150,9 @@ namespace eos
         std::size_t length() const;
         bool empty() const;
         bool contains(const wire& substr) const;
-		std::string str() const
-		{
-			return m_container;
-		}
+        std::string str() const;
 
-        wire& append(const wire& tail)
-        {
-            std::string tmp = tail.str();
-            m_container.append(tmp);
-            return *this;
-        }
-        
+        wire& append(const wire& tail);
         wire& reverse(void);
 
     };

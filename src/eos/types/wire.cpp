@@ -92,7 +92,7 @@ wire& wire::operator+=(const wire& value)
     m_container += value.str();
     return *this;
 }
-    
+
 // return space if data is empty
 wire::operator char()
 {
@@ -191,23 +191,40 @@ bool wire::contains(const wire& substr) const
     return found;
 }
 
-wire& wire::substr(int from, int to)
+wire wire::substr(int from, int to) const
 {
-    m_container = m_container.substr(from, to);
+    auto res = m_container.substr(from, to);
+    return wire(res);
+}
+    
+wire wire::multiply(std::size_t times) const
+{
+    string result;
+    for (int i = 0; i < times; i++)
+        result += m_container;
+
+    return wire(result);
+}
+    
+wire& wire::remove(const wire& chunk)
+{
+    string workCopy = m_container;
+    string primitiveSubstr = chunk.str();
+    while(true)
+    {
+        auto pos = workCopy.find(primitiveSubstr);
+        if (pos == string::npos)
+            break;
+        
+        // TODO: it can be improved
+        workCopy = workCopy.substr(0, pos) + workCopy.substr(pos+primitiveSubstr.length());
+    }
+    m_container = workCopy;
     return *this;
 }
 
-wire& wire::remove(const wire& substr)
-{
-    string primitiveSubstr = substr.str();
-    auto pos = m_container.find(primitiveSubstr);
-    if (pos != string::npos)
-        m_container = m_container.substr(0, pos) + m_container.substr(pos+primitiveSubstr.length());
-
-    return *this;
-}
-
-wire& wire::removeAll(const wire& substr)
+//! Replace all found substrings by new substring.
+wire& wire::replace(const wire& substr, const wire& newsubstr)
 {
     string workCopy = m_container;
     string primitiveSubstr = substr.str();
@@ -216,14 +233,42 @@ wire& wire::removeAll(const wire& substr)
         auto pos = workCopy.find(primitiveSubstr);
         if (pos == string::npos)
             break;
-
+        
         // TODO: it can be improved
-        workCopy = workCopy.substr(0, pos) + workCopy.substr(pos+primitiveSubstr.length());
+        workCopy = workCopy.substr(0, pos) + newsubstr.str() + workCopy.substr(pos+primitiveSubstr.length());
     }
     m_container = workCopy;
     return *this;
+
 }
 
+wire wire::masking(wire mask, int unmaskedLeft, int unmaskedRight) const
+{
+    if (unmaskedRight == npos)
+        unmaskedRight = unmaskedLeft;
+    
+    auto unmaskedPart = unmaskedLeft + unmaskedRight;
+    
+    auto remains = m_container.length() - unmaskedPart;
+    if (remains > 0)
+    {
+        wire result = substr(0, unmaskedLeft)
+                    + mask.multiply(remains)
+                    + substr(m_container.length()-unmaskedRight);
+        return result;
+    }
+    
+    return *this;
+}
+
+wire wire::padding(wire mask, int leftCount, int rightCount) const
+{
+    if (rightCount == npos)
+        rightCount = leftCount;
+    wire result = mask.multiply(leftCount) + (*this) + mask.multiply(rightCount);
+    return result;
+}
+    
     
 std::vector<wire> wire::split(void) const
 {
@@ -258,6 +303,16 @@ std::vector<wire> wire::split(const wire& separator) const
     return chunks;
 }
 
+string wire::str() const
+{
+    return m_container;
+}
+
+wire& wire::append(const wire& tail)
+{
+    m_container.append(tail.str());
+    return *this;
+}
 
 wire& wire::reverse(void)
 {
