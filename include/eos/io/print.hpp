@@ -34,6 +34,9 @@
     #include <forward_list>
 #endif
 
+
+#define dump(value) std::cout << (#value) << ": " << (value) << std::endl
+
 #define BUILD_CONTENT 														\
         std::stringstream ss;												\
 	    for (; it != collection.end(); ++it)								\

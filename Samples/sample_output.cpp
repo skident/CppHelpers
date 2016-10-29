@@ -181,11 +181,27 @@ void sample_trim()
     cout << "Sample #7 " << "'" << trim("1         1") << "'" << endl;
 }
 
+void sample_dump()
+{
+    cout << endl;
+    cout << "=========================================" << endl;
+    cout << "        Sample of dumping any value      " << endl;
+    cout << "=========================================" << endl;
+    
+
+    vector<int> v={1,2,3,4,5};
+    dump(v);
+    string result = "some info";
+    dump(result);
+    dump("result");
+}
+
 void run_output_samples()
 {
     sample_stl_helpers_C03();
     sample_stl_helpers_C11();
     sample_stl_helpers_C03_own_type();
     sample_trim();
+    sample_dump();
 }
 

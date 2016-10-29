@@ -43,10 +43,10 @@ void sample_implicit_casts()
         const char symbol = wire("qwerty");                 // symbol == 'q'
         char symbol2 = wire();                              // symbol2 == ' '
         
-        cout << digit << endl;
-        cout << shortDigit << endl;
-        cout << bigData << endl;
-        cout << symbol << endl;
+        dump(digit);
+        dump(shortDigit);
+        dump(bigData);
+        dump(symbol);
         cout << "'" << symbol2 << "'" << endl;  // quotes for show the space
     }
 }
@@ -102,12 +102,6 @@ void sample_of_modifications()
         wire digits(1234554321231);
         digits.remove(4);
         cout << "digits after remove 4: " << digits << endl;
-        
-        digits.removeAll(23);
-        cout << "digits after remove all 23: " << digits << endl;
-        
-        wire word("abcabab");
-        cout << word.removeAll("ab") << endl;
     }
 
     // concatenate test
@@ -123,17 +117,15 @@ void sample_of_modifications()
             str2 += i;
         }
         
-        
-        
-        cout << str << endl;
-        cout << str2 << endl;
-        cout << str3 << endl;
+        dump(str);
+        dump(str2);
+        dump(str3);
     }
     
     // test trim(s)
     {
         wire test("  123   ");
-        cout << test << endl;
+        dump(test);
         // trim changes the real object
         cout << "ltrim '" << wire(test).ltrim() << "'" << endl;
         cout << "rtrim '" << wire(test).rtrim() << "'" << endl;
@@ -162,19 +154,40 @@ void sample_of_modifications()
     // Test constructor with char
     {
         wire charObj('c');
-        cout << charObj << endl;
-        cout << charObj[0] << endl;
+        dump(charObj);
+        dump(charObj[0]);
         charObj[0] = 'd';
     }
     
     // Test contains method
     {
         wire res(33344511);
+        dump(res);
         cout << "Does contain digit 3? " << res.contains(3) << endl;
         cout << "Does contain digit 0? " << res.contains(0) << endl;
     }
+}
 
 
+//#define PRINT(value) cout << #value << " " << value << endl;
+void sample_padding()
+{
+    cout << endl;
+    cout << "=========================================" << endl;
+    cout << " eos::wire padding, masking, multiplying " << endl;
+    cout << "=========================================" << endl;
+
+    wire paddedData = wire(777).padding("*", 2, 3);
+    wire secretInfo = wire("1234567890").masking("#", 4);
+    wire secretInfo2 = wire("1234567890").masking(wire("#").multiply(2), 4);
+    wire multiplied = wire("123").multiply(3);
+    wire multiplied2 = wire("*").multiply(7);
+        
+    dump(paddedData);
+    dump(secretInfo);
+    dump(secretInfo2);
+    dump(multiplied);
+    dump(multiplied2);
 }
 
 void run_wire_samples()
@@ -182,4 +195,6 @@ void run_wire_samples()
     sample_implicit_casts();
     sample_algorithms_usage();
     sample_of_modifications();
+    
+    sample_padding();
 }
