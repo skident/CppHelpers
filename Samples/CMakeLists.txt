@@ -16,9 +16,9 @@ file(GLOB_RECURSE INCLUDES *.h)
 file(GLOB_RECURSE INCLUDES *.hpp)
 file(GLOB_RECURSE SOURCES *.cpp)
 
+find_package (Threads)
 
 # Create application
 add_executable(${PROJECT_NAME} ${INCLUDES} ${SOURCES})
 target_link_libraries(${PROJECT_NAME} eos)
-
-
+target_link_libraries(${PROJECT_NAME} ${CMAKE_THREAD_LIBS_INIT})
