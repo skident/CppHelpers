@@ -131,7 +131,7 @@ namespace eos
         //! get sub-wire from current wire
         //! \param from position from which new wire should be started
         //! \param to the index of the end of the new sub-wire
-        wire substr(size_t from, size_t to = npos) const;
+        wire substr(std::size_t from, std::size_t to = npos) const;
         
         //! remove all chuks
         //! \param chunk the substring which should be removed
@@ -140,17 +140,17 @@ namespace eos
         //! Replace all found substrings by new substring.
         wire& replace(const wire& substr, const wire& newsubstr);
         
-        wire masking(wire mask, size_t unmaskedLeft, size_t unmaskedRight = npos) const;
+        wire masking(wire mask, std::size_t unmaskedLeft, std::size_t unmaskedRight = npos) const;
         
-        wire padding(wire mask, size_t leftCount, size_t rightCount = npos) const;
+        wire padding(wire mask, std::size_t leftCount, std::size_t rightCount = npos) const;
         
         std::vector<wire> split(void) const;
         std::vector<wire> split(const wire& separator) const;
 
-        std::size_t length() const;
-        bool empty() const;
+        inline std::size_t length() const;
+        inline bool empty() const;
         bool contains(const wire& substr) const;
-        std::string str() const;
+        inline std::string str() const;
 
         wire& append(const wire& tail);
         wire& reverse(void);

@@ -247,11 +247,18 @@ wire wire::masking(wire mask, size_t unmaskedLeft, size_t unmaskedRight) const
     if (unmaskedRight == npos)
         unmaskedRight = unmaskedLeft;
     
-    auto unmaskedPart = unmaskedLeft + unmaskedRight;
-    
-    auto remains = m_container.length() - unmaskedPart;
-    if (remains > 0)
+    // for avoid too huge digits which will give small digit in sum
+    const size_t len = length();
+    if (unmaskedLeft >= len || unmaskedRight >= len)
     {
+        return *this;
+    }
+    
+    
+    auto unmaskedPart = unmaskedLeft + unmaskedRight;
+    if (unmaskedPart < length())
+    {
+        auto remains = length() - unmaskedPart;
         wire result = substr(0, unmaskedLeft)
                     + mask.multiply(remains)
                     + substr(m_container.length()-unmaskedRight);

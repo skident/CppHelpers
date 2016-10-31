@@ -180,14 +180,16 @@ void sample_padding()
     wire paddedData = wire(777).padding("*", 2, 3);
     wire secretInfo = wire("1234567890").masking("#", 4);
     wire secretInfo2 = wire("1234567890").masking(wire("#").multiply(2), 4);
+    wire secretInfo3 = wire("1234567890").masking("*", 8);
     wire multiplied = wire("123").multiply(3);
-    wire multiplied2 = wire("*").multiply(7);
+    wire multiplied2 = wire("*").multiply(5);
         
-    dump(paddedData);
-    dump(secretInfo);
-    dump(secretInfo2);
-    dump(multiplied);
-    dump(multiplied2);
+    dump(paddedData);   // **777***
+    dump(secretInfo);   // 1234##7890
+    dump(secretInfo2);  // 1234####7890
+    dump(secretInfo3);  // 1234567890
+    dump(multiplied);   // 123123123
+    dump(multiplied2);  // *****
 }
 
 void run_wire_samples()
