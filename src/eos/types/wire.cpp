@@ -191,7 +191,7 @@ bool wire::contains(const wire& substr) const
     return found;
 }
 
-wire wire::substr(int from, int to) const
+wire wire::substr(size_t from, size_t to) const
 {
     auto res = m_container.substr(from, to);
     return wire(res);
@@ -242,7 +242,7 @@ wire& wire::replace(const wire& substr, const wire& newsubstr)
 
 }
 
-wire wire::masking(wire mask, int unmaskedLeft, int unmaskedRight) const
+wire wire::masking(wire mask, size_t unmaskedLeft, size_t unmaskedRight) const
 {
     if (unmaskedRight == npos)
         unmaskedRight = unmaskedLeft;
@@ -261,7 +261,7 @@ wire wire::masking(wire mask, int unmaskedLeft, int unmaskedRight) const
     return *this;
 }
 
-wire wire::padding(wire mask, int leftCount, int rightCount) const
+wire wire::padding(wire mask, size_t leftCount, size_t rightCount) const
 {
     if (rightCount == npos)
         rightCount = leftCount;
