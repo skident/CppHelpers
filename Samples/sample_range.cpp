@@ -11,7 +11,7 @@ void sample_range_1()
 	cout << "     Sample of eos::types::range usage   " << endl;
 	cout << "=========================================" << endl;
 
-    eos::Range<int> range;
+    eos::range<int> range;
 
 	range.insert({1, 3});
 	range.insert({1, 7});

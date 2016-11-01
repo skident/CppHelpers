@@ -15,12 +15,14 @@
 #include <sstream>
 #include <stdexcept>
 
+#define forever while (true)
+
 namespace eos
 {
     class wire
     {
     public:
-		static const std::size_t npos = -1;  // TODO: think is this constant really needed 
+	    static const std::size_t npos = -1;  // TODO: think is this constant really needed 
 		friend std::ostream& operator<<(std::ostream& os, wire rhs);
 
         //************** iterators *****************//
@@ -221,7 +223,7 @@ namespace eos
         }
 
 		//! Overloaded operator for appending wire into stream
-        std::ostream& operator<<(std::ostream& os)
+        std::ostream& operator<<(std::ostream& os) const
 		{
 			os << m_container;
 			return os;
@@ -236,6 +238,18 @@ namespace eos
 			m_container += ss.str();
         	return *this;
         }
+
+		//! Equal operator
+		bool operator==(const wire& rhs) const
+		{
+			return (m_container == rhs.m_container);
+		}
+
+		//! Less operator
+		bool operator<(const wire& rhs) const
+		{
+			return (m_container < rhs.m_container);
+		}
 
 		//! \return string representation of self
 		std::string str() const
@@ -266,6 +280,15 @@ namespace eos
         {
 			auto res = m_container.substr(from, to);
 			return wire(res);
+        }
+
+		//! Wrapper for std::string find method
+		//! \return position of found substring or npos if not found
+		template<class T>
+		bool find(const T& value) const
+        {
+			auto pos = m_container.find(wire(value).str());
+			return pos;
         }
 		//************** std::strng methods end **************//
 

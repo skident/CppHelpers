@@ -1,5 +1,5 @@
 /*! \file   	wire.cpp
-*	\brief		The wrapper under std::string with wide functionality.
+*	\brief		The wrapper under string with wide functionality.
 *
 *  \author 		Skident
 *  \date   		27.10.2016
@@ -15,7 +15,7 @@ using namespace std;
 
 namespace eos
 {
-	std::ostream& operator<<(std::ostream& os, wire rhs)
+	ostream& operator<<(ostream& os, wire rhs)
 	{
 		os << rhs.m_container;
 		return os;
@@ -31,13 +31,13 @@ namespace eos
 
 	wire& wire::rtrim()
 	{
-		std::string result;
+		string result;
 		string str = m_container;
-		std::size_t len = str.length();
-		int i = static_cast<int>(len - 1);
+		size_t len = str.length();
+		auto i = static_cast<int>(len - 1);
 		for (; i >= 0; i--)
 		{
-			if (std::isspace(str[i]) == 0)
+			if (isspace(str[i]) == 0)
 				break;
 		}
 
@@ -49,10 +49,10 @@ namespace eos
 
 	wire& wire::ltrim()
 	{
-		std::string result;
+		string result;
 		string str = m_container;
-		std::size_t len = str.length();
-		std::size_t i = 0;
+		size_t len = str.length();
+		size_t i = 0;
 		for (; i < len; i++)
 		{
 			if (isspace(str[i]) == 0)
@@ -74,10 +74,13 @@ namespace eos
 	}
 
 
-	wire wire::multiply(std::size_t times) const
+	wire wire::multiply(size_t times) const
 	{
+		size_t newLength = times * m_container.length();
 		string result;
-		for (int i = 0; i < times; i++)
+		result.reserve(newLength);
+
+		for (size_t i = 0; i < times; i++)
 			result += m_container;
 
 		return wire(result);
@@ -85,9 +88,10 @@ namespace eos
 
 	wire& wire::remove(const wire& chunk)
 	{
-		string workCopy = m_container;
-		string primitiveSubstr = chunk.str();
-		while (true)
+		auto workCopy = m_container;
+		auto primitiveSubstr = chunk.str();
+		
+		forever
 		{
 			auto pos = workCopy.find(primitiveSubstr);
 			if (pos == string::npos)
@@ -103,9 +107,10 @@ namespace eos
 	//! Replace all found substrings by new substring.
 	wire& wire::replace(const wire& substr, const wire& newsubstr)
 	{
-		string workCopy = m_container;
-		string primitiveSubstr = substr.str();
-		while (true)
+		auto workCopy = m_container;
+		auto primitiveSubstr = substr.str();
+		
+		forever
 		{
 			auto pos = workCopy.find(primitiveSubstr);
 			if (pos == string::npos)
@@ -125,7 +130,7 @@ namespace eos
 			unmaskedRight = unmaskedLeft;
 
 		// for avoid too huge digits which will give small digit in sum
-		const size_t len = length();
+		const auto len = length();
 		if (unmaskedLeft >= len || unmaskedRight >= len)
 		{
 			return *this;
@@ -136,9 +141,10 @@ namespace eos
 		if (unmaskedPart < length())
 		{
 			auto remains = length() - unmaskedPart;
-			wire result = substr(0, unmaskedLeft)
-				+ mask.multiply(remains)
-				+ substr(m_container.length() - unmaskedRight);
+			auto result = substr(0, unmaskedLeft) 
+						+ mask.multiply(remains)  
+						+ substr(m_container.length() - unmaskedRight);
+			
 			return result;
 		}
 
@@ -149,12 +155,12 @@ namespace eos
 	{
 		if (rightCount == npos)
 			rightCount = leftCount;
-		wire result = mask.multiply(leftCount) + (*this) + mask.multiply(rightCount);
+		auto result = mask.multiply(leftCount) + (*this) + mask.multiply(rightCount);
 		return result;
 	}
 
 
-	std::vector<wire> wire::split(void) const
+	vector<wire> wire::split(void) const
 	{
 		vector<wire> chunks;
 		for (size_t i = 0; i < m_container.length(); i++)
@@ -164,25 +170,29 @@ namespace eos
 		return chunks;
 	}
 
-	std::vector<wire> wire::split(const wire& separator) const
+	vector<wire> wire::split(const wire& separator) const
 	{
 		vector<wire> chunks;
-		string tmp = m_container;
-		string primitiveSeparator = separator.str();
-		for (;;)
+		auto tmp = m_container;
+		auto primitiveSeparator = separator.str();
+		
+		forever
 		{
 			auto pos = tmp.find(primitiveSeparator);
 			if (pos == string::npos)
+			{
+				// append the last chunk
+				if (!tmp.empty())
+					chunks.emplace_back(tmp);
 				break;
+			}				
+
 			auto chunk = tmp.substr(0, pos);
 			if (!chunk.empty())
-				chunks.push_back(tmp.substr(0, pos));
+				chunks.emplace_back(tmp.substr(0, pos));
+
 			tmp = tmp.substr(pos + separator.length());
 		}
-
-		// append the last chunk
-		if (!tmp.empty())
-			chunks.push_back(tmp);
 
 		return chunks;
 	}
@@ -205,6 +215,5 @@ namespace eos
 		}
 		return *this;
 	}
-
 }
     

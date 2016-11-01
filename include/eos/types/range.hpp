@@ -1,4 +1,4 @@
-/*! \file   	Range.h
+/*! \file   	range.h
  *	\brief		Rnages container based on std::multimap.
  *			
  *	This class provides a few simple methods for work.
@@ -16,7 +16,7 @@
 namespace eos
 {
 	template <typename T>
-	class Range
+	class range
 	{
 	public:
 		typedef std::pair<T, T> MinMax;
@@ -25,27 +25,27 @@ namespace eos
 		const static bool not_strict_bound = false;
 
 		//! Default constructor
-		Range()
+		range()
 		{
 			
 		}
 
 		//! Copy constructor
-		Range(const Range& rhs)
+		range(const range& rhs)
 		{
 			if (this != &rhs)
 				m_storage = rhs.m_storage;
 		}
 
 		//! Copy constructor
-		Range& operator=(const Range& rhs)
+		range& operator=(const range& rhs)
 		{
 			m_storage = rhs.m_storage;
 			return *this;
 		}
 
 		//! Destructor
-		virtual ~Range() 
+		virtual ~range() 
 		{
 			
 		}
@@ -96,6 +96,7 @@ namespace eos
 			m_storage.clear();
 		}
 
+		//! \return true if container is empty, false - otherwise
 		bool empty() const
 		{
 			return m_storage.empty();
@@ -109,15 +110,15 @@ namespace eos
 		}
 
         template<class U>
-		friend std::ostream& operator<<(std::ostream& os, const Range<U>& obj);
+		friend std::ostream& operator<<(std::ostream& os, const range<U>& obj);
 		
 
-		bool operator==(const Range& rhs)
+		bool operator==(const range& rhs)
 		{
 			return (m_storage == rhs.m_storage);
 		}
 
-		bool operator!=(const Range& rhs)
+		bool operator!=(const range& rhs)
 		{
 			return (m_storage != rhs.m_storage);
 		}
@@ -125,7 +126,7 @@ namespace eos
 	private:
 		std::multimap<T, T> m_storage;
 
-		bool isInRange(const MinMax& range, const T& value, bool strictLowerLimit, bool strictUpperLimit) const
+		static bool isInRange(const MinMax& range, const T& value, bool strictLowerLimit, bool strictUpperLimit)
 		{
 			if (strictLowerLimit && range.first == value)
 				return true;
@@ -141,13 +142,11 @@ namespace eos
     
 
     template <class U>
-    std::ostream& operator<<(std::ostream& os, const Range<U>& obj)
+    std::ostream& operator<<(std::ostream& os, const range<U>& obj)
     {
     	os << obj.m_storage;
     	return os;
     }
-    
-
 };
 
 
