@@ -1,19 +1,35 @@
 #include <iostream>
 
 #include <eos/types/wire.hpp>
-#include <gtest/gtest.h>
+#include "CppUnitLite/TestHarness.h"
 
 using namespace std;
 
-
-int main(int argc, char* argv[])
+SimpleString StringFrom(const std::string& value)
 {
-	::testing::InitGoogleTest(&argc, argv);
-	int ret = RUN_ALL_TESTS();
-	return ret;
+	return SimpleString(value.c_str());
 }
 
-TEST(ValidatorRegex, ManualPositive)
+
+int main()
 {
-	//EXPECT_EQ(true, 1, 1);
+	TestResult tr;
+	TestRegistry::runAllTests(tr);
+
+	return 0;
 }
+
+
+TEST(Stack, creation)
+{
+	/*std::string s;
+	LONGS_EQUAL(0, s.size());
+	std::string b = "asa";
+	CHECK_EQUAL(string("asa"), b);*/
+}
+
+
+//TEST(ValidatorRegex, ManualPositive)
+//{
+//	//EXPECT_EQ(true, 1, 1);
+//}
