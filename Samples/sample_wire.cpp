@@ -192,6 +192,19 @@ void sample_padding()
     dump(multiplied2);  // *****
 }
 
+void sample_stream()
+{
+    cout << endl;
+    cout << "=========================================" << endl;
+    cout << " eos::wire using as stream " << endl;
+    cout << "=========================================" << endl;
+
+	wire streamWire;
+	
+	streamWire << 11 << " years";
+	dump(streamWire);
+}
+
 void run_wire_samples()
 {
     sample_implicit_casts();
@@ -199,4 +212,5 @@ void run_wire_samples()
     sample_of_modifications();
     
     sample_padding();
+	sample_stream();
 }
