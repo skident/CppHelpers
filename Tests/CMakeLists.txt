@@ -18,8 +18,9 @@ file(GLOB SOURCES *.cpp)
 # which directories will be include to project. Used for includes in code
 # like this #include <include/eos/io/print.hpp> or #include <eos/io/print.hpp>
 include_directories(../include 
+                    CppUnitLite/include/CppUnitLite
                     CppUnitLite/include
-                    )
+		    )
 
 link_directories(   ../lib 
                     CppUnitLite/lib
