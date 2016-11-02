@@ -135,6 +135,14 @@ namespace eos
 			return *this;
 		}
 
+		//! Assignment operator for string
+		template<class T>
+		wire& operator=(const T& rhs)
+		{
+			m_container = wire(rhs).str();
+			return *this;
+		}
+
 		// TODO: move constructor and operator
 		//************** constructors end *****************//
         
@@ -243,6 +251,20 @@ namespace eos
 		bool operator==(const wire& rhs) const
 		{
 			return (m_container == rhs.m_container);
+		}
+
+		//! Not Equal operator
+		bool operator!=(const wire& rhs) const
+		{
+			return (m_container != rhs.m_container);
+		}
+
+
+		//! Not Equal operator
+		template<class T>
+		bool operator!=(const T& rhs) const
+		{
+			return (m_container != wire(rhs).str());
 		}
 
 		//! Less operator

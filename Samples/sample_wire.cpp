@@ -205,6 +205,25 @@ void sample_stream()
 	dump(streamWire);
 }
 
+
+void sample_assign()
+{
+	cout << endl;
+	cout << "=========================================" << endl;
+	cout << " eos::wire assignment operator " << endl;
+	cout << "=========================================" << endl;
+
+	wire s = "12312";
+	wire s2 = 1.3;
+	wire s3 = true;
+	wire s4 = 'c';
+
+	dump(s);
+	dump(s2);
+	dump(s3);
+	dump(s4);
+}
+
 void run_wire_samples()
 {
     sample_implicit_casts();
@@ -213,4 +232,5 @@ void run_wire_samples()
     
     sample_padding();
 	sample_stream();
+	sample_assign();
 }
