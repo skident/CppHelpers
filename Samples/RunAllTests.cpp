@@ -5,20 +5,25 @@
 #include "sample_wire.hpp"
 #include "sample_worker.hpp"
 
-#include <eos/types/tests.hpp>
+#include <eos/tests/tests.hpp>
 
 using namespace std;
 using namespace eos;
 
 
-TEST(test1, just)
+TEST(test, ints)
 {
     EQ_TEST(1,4)
 }
 
+TEST(test, strings)
+{
+	EQ_TEST(string("123"), "123")
+}
+
 int main()
 {
-    TestContainer::get().RunAll();
+	TestContainer::RunAllTests();
     
     /*
 	run_output_samples();
