@@ -17,17 +17,11 @@ file(GLOB SOURCES *.cpp)
 
 # which directories will be include to project. Used for includes in code
 # like this #include <include/eos/io/print.hpp> or #include <eos/io/print.hpp>
-include_directories(../include 
-                    CppUnitLite/include
-                    )
-
-link_directories(   ../lib 
-                    CppUnitLite/lib
-                    )
+include_directories(../include)
+link_directories(../lib)
 
 # Create application
 add_executable(${PROJECT_NAME} ${INCLUDES} ${SOURCES})
-add_subdirectory(CppUnitLite)
 
-target_link_libraries(${PROJECT_NAME} eos CppUnitLite)
+target_link_libraries(${PROJECT_NAME} eos)
 
