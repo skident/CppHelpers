@@ -150,26 +150,23 @@ namespace eos
 
 
 
-#define TEST(name, group)\
-    class name##group##Test : public eos::Test \
-    {\
-    public:\
-        name##group##Test()\
-            : Test(#name, #group)\
-        {\
-        }\
-            \
-        ~name##group##Test() {}\
-        \
-        void run() override;\
-    };\
-    \
-    name##group##Test name##group##Instance = name##group##Test(); \
-    void name##group##Test::run()\
+#define TEST(name, group)                                                               \
+    class name##group##Test : public eos::Test                                          \
+    {                                                                                   \
+    public:                                                                             \
+        name##group##Test()                                                             \
+            : Test(#name, #group)                                                       \
+        {}                                                                              \
+        ~name##group##Test() {}                                                         \
+        void run() override;                                                            \
+    };                                                                                  \
+                                                                                        \
+    name##group##Test name##group##Instance = name##group##Test();                      \
+    void name##group##Test::run()                                                       \
 
 
-#define EQ_TEST(expected, current) \
-    {\
-     if (expected != current)\
-        Failures::get().add(m_name, m_group, __FILE__, __LINE__, #expected, #current); \
-    }\
+#define EQ_TEST(expected, current)                                                      \
+    {                                                                                   \
+     if (expected != current)                                                           \
+        Failures::get().add(m_name, m_group, __FILE__, __LINE__, #expected, #current);  \
+    }                                                                                   \
