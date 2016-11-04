@@ -1,15 +1,35 @@
 # eos library
 The name Eos was taken from greek mythology and translates as the dawn of the Sun.
 
-Now library contains one container class Range for special work and helper file for printing STL containers as is in one line of code.
+Library eos provides own types and functions which are give oportunity to coding on C++ a bit easier and abstract. 
+Do you want to construct std::string from int with standatd constructor? I know that You want it! Do it with eos::wire!
+`eos::wire constrFromInt(123456);
+std::cout << constrFromInt << std::endl;
 
+auto padded = constrFromInt.padding("#", 2);
+std::cout << padded << std::endl;
+
+auto reversed = constrFromInt.reverse();
+std::cout << reversed << std::endl;
+
+std::vector<eos::wire> chunks = constrFromInt.split(3);
+std::cout << chunks << std::endl;
+`
+>123456
+>##123456##
+>654321
+>[12, 456]
+
+***
     
 **Library hierarchy is adapted for Unix systems**. After compilation You can add content from /include folder into /usr/include/ and from /lib folder into /usr/lib/. After that you do not have to write PATH to library in your project.
 
+***
     
 **Requirements:**
 * GoogleTest - for testing library (now it loads directly from github).
 
+***
 
 **How to build:**
 * Go to eos library root folder
