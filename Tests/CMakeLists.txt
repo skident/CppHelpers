@@ -3,12 +3,6 @@ project(eos_tests)
 
 # define the project
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
-# set(CMAKE_BUILD_TYPE Release)
-
-# Find source files
-# file(GLOB_RECURSE INCLUDES *.h*)
-# file(GLOB_RECURSE INCLUDES *.hpp)
-# file(GLOB_RECURSE SOURCES *.cpp)
 
 file(GLOB INCLUDES *.h*)
 file(GLOB INCLUDES *.hpp)
@@ -16,12 +10,39 @@ file(GLOB SOURCES *.cpp)
 
 
 # which directories will be include to project. Used for includes in code
-# like this #include <include/eos/io/print.hpp> or #include <eos/io/print.hpp>
 include_directories(../include)
 link_directories(../lib)
 
+
+
+
+
+
+include(CMake/DownloadProject.cmake)
+
+download_project(PROJ                googletest
+                  GIT_REPOSITORY      https://github.com/google/googletest.git
+                  GIT_TAG             master
+                  ${UPDATE_DISCONNECTED_IF_AVAILABLE}
+)
+
+# Prevent GoogleTest from overriding our compiler/linker options
+# when building with Visual Studio
+set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
+
+add_subdirectory(${googletest_SOURCE_DIR} ${googletest_BINARY_DIR})
+
+# When using CMake 2.8.11 or later, header path dependencies
+# are automatically added to the gtest and gmock targets.
+# For earlier CMake versions, we have to explicitly add the
+# required directories to the header search path ourselves.
+if (CMAKE_VERSION VERSION_LESS 2.8.11)
+    include_directories("${gtest_SOURCE_DIR}/include"
+                        "${gmock_SOURCE_DIR}/include")
+endif()
+
+# Trivial example using gtest and gmock
 # Create application
 add_executable(${PROJECT_NAME} ${INCLUDES} ${SOURCES})
 
-target_link_libraries(${PROJECT_NAME} eos)
-
+target_link_libraries(${PROJECT_NAME} gtest eos)
