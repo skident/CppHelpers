@@ -1,11 +1,15 @@
 # eos library
 The name Eos was taken from greek mythology and translates as the dawn of the Sun.
 
+**Purpose**
+
 Library eos provides own types and functions which are give oportunity to coding on C++ a bit easier and abstract. 
 Do you want to construct std::string from int with standatd constructor? I know that You want it! Do it with eos::wire!
 
 *Code*
-`eos::wire constrFromInt(123456);
+
+```
+eos::wire constrFromInt(123456);
 std::cout << constrFromInt << std::endl;
 
 auto padded = constrFromInt.padding("c", 2);
@@ -16,12 +20,16 @@ std::cout << reversed << std::endl;
 
 std::vector<eos::wire> chunks = constrFromInt.split(3);
 std::cout << chunks << std::endl;
-`
+````
 
 *Output:*
+
 > 123456
+
 > cc123456cc
+
 > 654321
+
 > [12, 456]
 
 ***
