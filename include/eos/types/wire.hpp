@@ -398,4 +398,31 @@ namespace eos
 			return m_container.at(0);
 		}
     };
+    
+    
+    // TODO: move it to different file
+    template<class T>
+    wire join(const std::vector<T>& data)
+    {
+        wire result;
+        for (const auto& element : data)
+            result += element;
+        return result;
+    }
+    
+    template<class T>
+    wire join(const std::vector<T>& data, const wire& sepatator)
+    {
+        wire result;
+        auto size = data.size();
+        auto lastIdx = size - 1 ;
+        for (auto i = 0; i < size; i++)
+        {
+            result += data[i];
+            if (i != lastIdx )
+                result += sepatator;
+        }
+        return result;
+    }
+
 }
