@@ -4,11 +4,11 @@ The name Eos was taken from greek mythology and translates as the dawn of the Su
 Now library contains one container class Range for special work and helper file for printing STL containers as is in one line of code.
 
     ***
-
+    
 **Library hierarchy is adapted for Unix systems**. After compilation You can add content from /include folder into /usr/include/ and from /lib folder into /usr/lib/. After that you do not have to write PATH to library in your project.
 
     ***
-
+    
 **Requirements:**
 * GoogleTest - for testing library (now it loads directly from github).
 
