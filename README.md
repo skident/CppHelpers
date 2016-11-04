@@ -6,7 +6,7 @@ Do you want to construct std::string from int with standatd constructor? I know 
 `eos::wire constrFromInt(123456);
 std::cout << constrFromInt << std::endl;
 
-auto padded = constrFromInt.padding("#", 2);
+auto padded = constrFromInt.padding("c", 2);
 std::cout << padded << std::endl;
 
 auto reversed = constrFromInt.reverse();
@@ -16,7 +16,7 @@ std::vector<eos::wire> chunks = constrFromInt.split(3);
 std::cout << chunks << std::endl;
 `
 >123456
->##123456##
+>cc123456cc
 >654321
 >[12, 456]
 
