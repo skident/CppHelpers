@@ -7,10 +7,10 @@
 //
 
 #include <iostream>
-#include <vector>
 
-#include <eos/types/optional.hpp>
 #include <gtest/gtest.h>
+#include <eos/types/optional.hpp>
+
 
 using namespace std;
 using namespace eos;
