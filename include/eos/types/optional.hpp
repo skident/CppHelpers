@@ -9,6 +9,7 @@
 #pragma once
 
 #include <cstddef>
+#include <iostream>
 
 namespace eos
 {
@@ -39,6 +40,10 @@ namespace eos
             m_wasSet = false;
         }
         
+        
+        //////////////////////
+        // operators
+        //////////////////////
         operator T()
         {
             return m_value;
@@ -72,10 +77,41 @@ namespace eos
             return !(*this == value);
         }
         
+        bool operator==(const optional<T>& rhs)
+        {
+            if (!m_wasSet || !rhs.m_wasSet)
+                return false;
+            
+            return (m_value == rhs.m_value);
+        }
+        
+        bool operator!=(const optional<T>& rhs)
+        {
+            return !(*this == rhs);
+        }
+        
+        std::ostream& operator<<(std::ostream& os)
+        {
+            if (m_wasSet)
+                os << m_value;
+            return os;
+        }
+        
+        template<class U>
+        friend std::ostream& operator<<(std::ostream& os, const optional<U>& rhs);
+        
     private:
         T m_value;
         bool m_wasSet = false;
     };
     
+    
+    template<class U>
+    std::ostream& operator<<(std::ostream& os, const optional<U>& rhs)
+    {
+        if (rhs.m_wasSet)
+            os << rhs.m_value;
+        return os;
+    }
 
 }
