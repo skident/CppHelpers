@@ -1,8 +1,8 @@
-cmake_minimum_required(VERSION 3.0)
+cmake_minimum_required(VERSION 3.1)
 project(eos)
 
 # define the project
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+set (CMAKE_CXX_STANDARD 11)
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/lib/)
 
 # which directories will be include to project. Used for includes in code
@@ -19,3 +19,4 @@ add_library(${PROJECT_NAME} STATIC ${INCLUDES} ${SOURCES})
 
 
 add_subdirectory(Samples)
+add_subdirectory(Tests)
