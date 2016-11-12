@@ -8,6 +8,7 @@
 
 #include <iostream>
 
+#include "samples.hpp"
 #include "eos/types/optional.hpp"
 
 using namespace eos;
@@ -15,6 +16,12 @@ using namespace std;
 
 void test_optional_simple()
 {
+    cout << endl;
+    cout << "=========================================" << endl;
+    cout << "Sample of eos::optional" << endl;
+    cout << "=========================================" << endl;
+
+    
     optional<int> optInt;
     if (!optInt)
         cout << "Empty" << endl;
@@ -37,4 +44,23 @@ void test_optional_simple()
         cout << "Not 27" << endl;
 
     
+    optional<string> optStr("qwerty");
+    string extracted = optStr;
+    cout << optStr << endl;
+    
+    optional<string> optStr2("qwe");
+    
+    if (optStr != optStr2)
+        cout << "Two optionals are not equal" << endl;
+    
+    optStr2.store("qwerty");
+    
+    if (optStr == optStr2)
+        cout << "Two optionals are equal" << endl;
+}
+
+
+void run_optional_samples()
+{
+    test_optional_simple();
 }
