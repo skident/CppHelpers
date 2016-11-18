@@ -259,6 +259,13 @@ namespace eos
 			return (m_container != rhs.m_container);
 		}
 
+        
+        //! Not Equal operator
+        template<class T>
+        bool operator==(const T& rhs)
+        {
+            return (m_container == wire(rhs).str());
+        }
 
 		//! Not Equal operator
 		template<class T>
@@ -266,6 +273,21 @@ namespace eos
 		{
 			return (m_container != wire(rhs).str());
 		}
+        
+        
+        
+        /////////
+        // friends
+        /////////
+        
+        //! Not Equal operator
+        template<class T>
+        friend bool operator==(const T& lhs, const wire& rhs);
+        
+        //! Not Equal operator
+        template<class T>
+        friend bool operator!=(const T& lhs, const wire& rhs);
+        
 
 		//! Less operator
 		bool operator<(const wire& rhs) const
@@ -424,5 +446,25 @@ namespace eos
         }
         return result;
     }
+    
+    
+    /////////
+    // friends
+    /////////
+    
+    //! Not Equal operator
+    template<class T>
+    bool operator==(const T& lhs, const wire& rhs)
+    {
+        return rhs == lhs;
+    }
+    
+    //! Not Equal operator
+    template<class T>
+    bool operator!=(const T& lhs, const wire& rhs)
+    {
+        return rhs != lhs;
+    }
+    
 
 }
