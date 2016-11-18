@@ -1,4 +1,4 @@
-#include "sample_output.hpp"
+#include "samples.hpp"
 
 #include <iostream>
 

@@ -1,8 +1,8 @@
-cmake_minimum_required(VERSION 3.0)
+cmake_minimum_required(VERSION 3.1)
 project(eos_tests)
 
+set (CMAKE_CXX_STANDARD 11)
 # define the project
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
 file(GLOB INCLUDES *.h*)
 file(GLOB INCLUDES *.hpp)

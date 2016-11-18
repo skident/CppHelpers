@@ -1,6 +1,7 @@
 #include "eos/types/range.hpp"
 #include <iostream>
 #include <vector>
+#include "samples.hpp"
 
 using namespace std;
 

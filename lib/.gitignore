@@ -1,0 +1,3 @@
+*.a
+/Release/
+/Debug/
