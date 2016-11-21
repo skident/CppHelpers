@@ -10,6 +10,7 @@
 
 #include "samples.hpp"
 #include "eos/types/optional.hpp"
+#include <string>
 
 using namespace eos;
 using namespace std;
