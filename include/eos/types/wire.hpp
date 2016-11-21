@@ -88,7 +88,7 @@ namespace eos
 
 		//! Constructor from std::string
         wire(const std::string& data)
-			:m_container(data)
+			: m_container(data)
         {	        
         }
 
@@ -102,6 +102,12 @@ namespace eos
         wire(const char value)
         {
 			m_container.assign(1, value);
+        }
+        
+        wire(bool value)
+            : m_container((value ? "true" : "false"))
+        {
+                
         }
 
 		//! Generic constructor for other types 
@@ -259,6 +265,13 @@ namespace eos
 			return (m_container != rhs.m_container);
 		}
 
+        
+        //! Not Equal operator
+        template<class T>
+        bool operator==(const T& rhs)
+        {
+            return (m_container == wire(rhs).str());
+        }
 
 		//! Not Equal operator
 		template<class T>
@@ -266,6 +279,21 @@ namespace eos
 		{
 			return (m_container != wire(rhs).str());
 		}
+        
+        
+        
+        /////////
+        // friends
+        /////////
+        
+        //! Not Equal operator
+        template<class T>
+        friend bool operator==(const T& lhs, const wire& rhs);
+        
+        //! Not Equal operator
+        template<class T>
+        friend bool operator!=(const T& lhs, const wire& rhs);
+        
 
 		//! Less operator
 		bool operator<(const wire& rhs) const
@@ -318,17 +346,16 @@ namespace eos
 
 		//************** Useful methods **************//
 		//! Removes white-spaces before and after data.
-		//! \return the reference to itself 
-    	wire& trim();
+		//! \return wire object without spaces before and after data
+    	wire trim();
 
 		//! Removes white-spaces after data.
-		//! \return the reference to itself 
-        wire& rtrim();
+		//! \return wire object without spaces in the end
+        wire rtrim();
 
 		//! Removes white-spaces before data.
-		//! \return the reference to itself 
-		//! \return the reference to itself 
-        wire& ltrim();
+		//! \return wire object without leading spaces
+        wire ltrim();
         
 		//! Duplicates current content N times
 		//! \param times how many times data will be duplicate
@@ -337,12 +364,12 @@ namespace eos
         
         //! Removes all chuks
         //! \param chunk the substring which should be removed
-		//! \return the reference to itself 
-        wire& remove(const wire& chunk);
+		//! \return new object without chunks
+        wire remove(const wire& chunk);
         
         //! Replaces all found substrings by new substring.
-		//! \return the reference to itself 
-        wire& replace(const wire& substr, const wire& newsubstr);
+		//! \return the new object with replaced substrings
+        wire replace(const wire& substr, const wire& newsubstr);
         
 		//! Masks data in wire.
 		//! \param mask wire object which will be inserted instead of each symbol in old data
@@ -370,12 +397,12 @@ namespace eos
 		bool contains(const wire& substr) const;
 
 		//! Appends data into the end of self
-		//! \return the new instance of wire.
+		//! \return the reference to itself
     	wire& append(const wire& tail);
 
-		//! Reverse itself.
+		//! Reverse content of wire.
 		//! \return the new instance of wire.
-        wire& reverse(void);
+        wire reverse(void);
 
 
 	private:
@@ -424,5 +451,25 @@ namespace eos
         }
         return result;
     }
+    
+    
+    /////////
+    // friends
+    /////////
+    
+    //! Not Equal operator
+    template<class T>
+    bool operator==(const T& lhs, const wire& rhs)
+    {
+        return rhs == lhs;
+    }
+    
+    //! Not Equal operator
+    template<class T>
+    bool operator!=(const T& lhs, const wire& rhs)
+    {
+        return rhs != lhs;
+    }
+    
 
 }

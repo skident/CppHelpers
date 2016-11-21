@@ -103,7 +103,7 @@ namespace eos
 		}
 
 		//! print all ranges
-		void print()
+		void print() const
 		{
 			for (auto it : m_storage)
 				std::cout << it.first << " : " << it.second << std::endl;
@@ -113,12 +113,12 @@ namespace eos
 		friend std::ostream& operator<<(std::ostream& os, const range<U>& obj);
 		
 
-		bool operator==(const range& rhs)
+		bool operator==(const range& rhs) const
 		{
 			return (m_storage == rhs.m_storage);
 		}
 
-		bool operator!=(const range& rhs)
+		bool operator!=(const range& rhs) const
 		{
 			return (m_storage != rhs.m_storage);
 		}

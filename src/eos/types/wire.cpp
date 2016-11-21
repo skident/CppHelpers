@@ -22,14 +22,13 @@ namespace eos
 	}
 
 	// Useful methods
-	wire& wire::trim()
+	wire wire::trim()
 	{
-		ltrim();
-		rtrim();
-		return *this;
+        wire result = ltrim().rtrim();
+        return result;
 	}
 
-	wire& wire::rtrim()
+	wire wire::rtrim()
 	{
 		string result;
 		string str = m_container;
@@ -42,12 +41,10 @@ namespace eos
 		}
 
 		result = str.substr(0, i + 1);
-		m_container = result;
-
-		return *this;
+        return wire(result);
 	}
 
-	wire& wire::ltrim()
+	wire wire::ltrim()
 	{
 		string result;
 		string str = m_container;
@@ -61,9 +58,7 @@ namespace eos
 
 		if (i < len)
 			result = str.substr(i);
-		m_container = result;
-
-		return *this;
+        return wire(result);
 	}
 
 	bool wire::contains(const wire& substr) const
@@ -86,7 +81,7 @@ namespace eos
 		return wire(result);
 	}
 
-	wire& wire::remove(const wire& chunk)
+	wire wire::remove(const wire& chunk)
 	{
 		auto workCopy = m_container;
 		auto primitiveSubstr = chunk.str();
@@ -100,12 +95,14 @@ namespace eos
 			// TODO: it can be improved
 			workCopy = workCopy.substr(0, pos) + workCopy.substr(pos + primitiveSubstr.length());
 		}
-		m_container = workCopy;
-		return *this;
+        
+        return wire(workCopy);
+//		m_container = workCopy;
+//		return *this;
 	}
 
 	//! Replace all found substrings by new substring.
-	wire& wire::replace(const wire& substr, const wire& newsubstr)
+	wire wire::replace(const wire& substr, const wire& newsubstr)
 	{
 		auto workCopy = m_container;
 		auto primitiveSubstr = substr.str();
@@ -119,8 +116,9 @@ namespace eos
 			// TODO: it can be improved
 			workCopy = workCopy.substr(0, pos) + newsubstr.str() + workCopy.substr(pos + primitiveSubstr.length());
 		}
-		m_container = workCopy;
-		return *this;
+        return wire(workCopy);
+//		m_container = workCopy;
+//		return *this;
 
 	}
 
@@ -203,17 +201,20 @@ namespace eos
 		return *this;
 	}
 
-	wire& wire::reverse(void)
+	wire wire::reverse(void)
 	{
-		auto halfSize = m_container.size() / 2;
+        string result = m_container;
+		auto halfSize = result.size() / 2;
 		char tmp;
-		for (size_t i = 0, j = m_container.size() - 1; i < halfSize; i++, j--)
+		for (size_t i = 0, j = result.size() - 1; i < halfSize; i++, j--)
 		{
-			tmp = m_container[i];
-			m_container[i] = m_container[j];
-			m_container[j] = tmp;
+			tmp = result[i];
+			result[i] = result[j];
+			result[j] = tmp;
 		}
-		return *this;
+        
+        return wire(result);
+//		return *this;
 	}
 }
     

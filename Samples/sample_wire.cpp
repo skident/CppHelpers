@@ -100,7 +100,7 @@ void sample_of_modifications()
     // test remove and removeAll
     {
         wire digits(1234554321231);
-        digits.remove(4);
+        digits = digits.remove(4);
         cout << "digits after remove 4: " << digits << endl;
     }
 
@@ -127,9 +127,9 @@ void sample_of_modifications()
         wire test("  123   ");
         dump(test);
         // trim changes the real object
-        cout << "ltrim '" << wire(test).ltrim() << "'" << endl;
-        cout << "rtrim '" << wire(test).rtrim() << "'" << endl;
-        cout << "trim '" << wire(test).trim() << "'" << endl;
+        cout << "ltrim '" << test.ltrim() << "'" << endl;
+        cout << "rtrim '" << test.rtrim() << "'" << endl;
+        cout << "trim '" << test.trim() << "'" << endl;
     }
     
     // test working with streams
@@ -177,12 +177,14 @@ void sample_padding()
     cout << " eos::wire padding, masking, multiplying " << endl;
     cout << "=========================================" << endl;
 
-    wire paddedData = wire(777).padding("*", 2, 3);
-    wire secretInfo = wire("1234567890").masking("#", 4);
-    wire secretInfo2 = wire("1234567890").masking(wire("#").multiply(2), 4);
-    wire secretInfo3 = wire("1234567890").masking("*", 8);
-    wire multiplied = wire("123").multiply(3);
-    wire multiplied2 = wire("*").multiply(5);
+    wire digits("1234567890");
+    
+    wire paddedData = wire(777).padding("*", 2, 3);                 // **777***
+    wire secretInfo = digits.masking("#", 4);                       // 1234##7890
+    wire secretInfo2 = digits.masking(wire("#").multiply(2), 4);    // 1234####7890
+    wire secretInfo3 = digits.masking("*", 8);                      // 1234567890
+    wire multiplied = wire("123").multiply(3);                      // 123123123
+    wire multiplied2 = wire("*").multiply(5);                       // *****
         
     dump(paddedData);   // **777***
     dump(secretInfo);   // 1234##7890
