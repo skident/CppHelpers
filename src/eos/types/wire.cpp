@@ -97,8 +97,6 @@ namespace eos
 		}
         
         return wire(workCopy);
-//		m_container = workCopy;
-//		return *this;
 	}
 
 	//! Replace all found substrings by new substring.
@@ -117,9 +115,6 @@ namespace eos
 			workCopy = workCopy.substr(0, pos) + newsubstr.str() + workCopy.substr(pos + primitiveSubstr.length());
 		}
         return wire(workCopy);
-//		m_container = workCopy;
-//		return *this;
-
 	}
 
 	wire wire::masking(wire mask, size_t unmaskedLeft, size_t unmaskedRight) const
@@ -129,24 +124,18 @@ namespace eos
 
 		// for avoid too huge digits which will give small digit in sum
 		const auto len = length();
-		if (unmaskedLeft >= len || unmaskedRight >= len)
+        auto unmaskedPart = unmaskedLeft + unmaskedRight;
+		if (unmaskedLeft >= len || unmaskedRight >= len || unmaskedPart >= len)
 		{
 			return *this;
 		}
-
-
-		auto unmaskedPart = unmaskedLeft + unmaskedRight;
-		if (unmaskedPart < length())
-		{
-			auto remains = length() - unmaskedPart;
-			auto result = substr(0, unmaskedLeft) 
-						+ mask.multiply(remains)  
-						+ substr(m_container.length() - unmaskedRight);
-			
-			return result;
-		}
-
-		return *this;
+        
+        auto remains = len - unmaskedPart;
+        auto result = substr(0, unmaskedLeft)
+                    + mask.multiply(remains)
+                    + substr(len - unmaskedRight);
+    
+        return result;
 	}
 
 	wire wire::padding(wire mask, size_t leftCount, size_t rightCount) const

@@ -470,6 +470,4 @@ namespace eos
     {
         return rhs != lhs;
     }
-    
-
 }

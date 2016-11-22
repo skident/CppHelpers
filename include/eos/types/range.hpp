@@ -75,19 +75,30 @@ namespace eos
 			if (it == m_storage.end())
 				--it;
 
-			// check is value in current range
-			bool bInRange = isInRange(*it, value, strictLowerLimit, strictUpperLimit);
-			if (bInRange)
-				return true;
+            // go backward and try to find
+            while (it->first > value)
+            {
+                if (it == m_storage.begin())
+                    break;
+                --it;
+            }
+            
+            // check every range (because of based on multimap)
+            while (it->first <= value)
+            {
+                // check is value in current range
+                bool bInRange = isInRange(*it, value, strictLowerLimit, strictUpperLimit);
+                if (bInRange)
+                    return true;
 
-			// it was the first element in storage
-			if (it == m_storage.begin())
-				return false;
+                // unfoturnately it is the end of ranges
+                if (it == m_storage.begin())
+                    break;
+                
+                --it; // go to previous range
+            }
 
-			// try to check previous range
-			--it;
-			bInRange = isInRange(*it, value, strictLowerLimit, strictUpperLimit);
-			return bInRange;
+            return false;
 		}
 
 		//! clear the storage with ranges
