@@ -10,6 +10,7 @@
 
 #include <cstddef>
 #include <iostream>
+#include <exception>
 
 namespace eos
 {
@@ -47,6 +48,12 @@ namespace eos
             m_wasSet = false;
         }
         
+        const T& get() const
+        {
+            if (!m_wasSet)
+                throw std::runtime_error("Value wasn't set");
+            return m_value;
+        }
         
         //////////////////////
         // operators

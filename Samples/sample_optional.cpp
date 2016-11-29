@@ -12,6 +12,8 @@
 #include "eos/types/optional.hpp"
 #include <string>
 
+#include "eos/types/field.hpp"
+
 using namespace eos;
 using namespace std;
 
@@ -61,7 +63,27 @@ void test_optional_simple()
 }
 
 
+void test_limitation()
+{
+    field<int> trnId;
+    
+    // only digits 3 and 4
+    trnId.setValueLimits(1, 10)     // 1 .. 10
+         .setLengthLimits(1, 2)     // -9 .. 99
+         .setValidator([](const int& value){ return (value % 4 == 0); }); // -8, -4, 0, 4, 8
+    
+    try
+    {
+        trnId.validate(8);
+    } catch (std::runtime_error& ex)
+    {
+        cout << ex.what() << endl;
+    }
+}
+
+
 void run_optional_samples()
 {
+    test_limitation();
     test_optional_simple();
 }

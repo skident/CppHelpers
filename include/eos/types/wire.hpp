@@ -470,4 +470,11 @@ namespace eos
     {
         return rhs != lhs;
     }
+    
+    
+    template <class T>
+    wire to_wire(const T& value)
+    {
+        return wire(value);
+    }
 }
