@@ -1,20 +1,20 @@
-/*! \file   	print.hpp
- *	\brief		Useful functions for work with STL containers. 
- *			
- *	Now it supports generic print for STL containers like: [elem1, elem2, elem3]
- *	Supported STL conrainers: vector, deque, list, set multiset, unordered_set,
+/*! \file       print.hpp
+ *  \brief      Useful functions for work with STL containers. 
+ *          
+ *  Now it supports generic print for STL containers like: [elem1, elem2, elem3]
+ *  Supported STL conrainers: vector, deque, list, set multiset, unordered_set,
  *  map, multimap, unordered_map, array
  *
- *  \author 	Skident
- *  \date   	02.09.2016
- *  \copyright	Skident Inc.
+ *  \author     Skident
+ *  \date       02.09.2016
+ *  \copyright  Skident Inc.
  */
 
 #pragma once
 
 // check is the C++11 or greater available (special hack for MSVC)
 #if (defined(_MSC_VER) && __cplusplus >= 199711L) || __cplusplus >= 201103L
-	#define MODERN_CPP_AVAILABLE 1
+    #define MODERN_CPP_AVAILABLE 1
 #endif
 
 
@@ -30,37 +30,37 @@
 #ifdef MODERN_CPP_AVAILABLE
     #include <array>
     #include <unordered_set>
-	#include <unordered_map>
+    #include <unordered_map>
     #include <forward_list>
 #endif
 
 
 #define dump(value) std::cout << (#value) << ": " << (value) << std::endl
 
-#define BUILD_CONTENT 														\
-        std::stringstream ss;												\
-	    for (; it != collection.end(); ++it)								\
-		{																	\
-			ss << *it << elem_separator;									\
-		}																	\
+#define BUILD_CONTENT                                                       \
+        std::stringstream ss;                                               \
+        for (; it != collection.end(); ++it)                                \
+        {                                                                   \
+            ss << *it << elem_separator;                                    \
+        }                                                                   \
 
 
-#define BUILD_MAP_CONTENT 													\
-        std::stringstream ss;												\
-	    for (; it != collection.end(); ++it)								\
-		{																	\
-			ss 	<< it->first 												\
-				<< keyval_separator											\
-				<< it->second 												\
-				<< elem_separator;											\
-		}																	\
+#define BUILD_MAP_CONTENT                                                   \
+        std::stringstream ss;                                               \
+        for (; it != collection.end(); ++it)                                \
+        {                                                                   \
+            ss  << it->first                                                \
+                << keyval_separator                                         \
+                << it->second                                               \
+                << elem_separator;                                          \
+        }                                                                   \
 
 
-#define COMPILE_CONTENT														\
-        std::string data = ss.str();										\
-        if (!data.empty() && !elem_separator.empty())						\
-            data = data.substr(0, data.rfind(elem_separator));				\
-        std::string result = first_bracket + data + last_bracket;       	\
+#define COMPILE_CONTENT                                                     \
+        std::string data = ss.str();                                        \
+        if (!data.empty() && !elem_separator.empty())                       \
+            data = data.substr(0, data.rfind(elem_separator));              \
+        std::string result = first_bracket + data + last_bracket;           \
         os << result;                                                       \
         if (needEndl)                                                       \
             os << std::endl;                                                \
@@ -139,11 +139,11 @@ namespace eos
 
 
     //! Prints template Container<T> as in Python
-	//! Supported containers: vector, deque, list, set, unordered_set(C++11), forward_list(C++11)
-	//! \param collection which should be printed
-	//! \param elem_separator the separator which will be inserted between elements of collection
-	//! \param first_bracket data before collection's elements (usual it is the parenthesis, square or curly bracker '(', '[', '{')
-	//! \param last_bracket data after collection's elements (usual it is the parenthesis, square or curly bracker ')', ']', '}')
+    //! Supported containers: vector, deque, list, set, unordered_set(C++11), forward_list(C++11)
+    //! \param collection which should be printed
+    //! \param elem_separator the separator which will be inserted between elements of collection
+    //! \param first_bracket data before collection's elements (usual it is the parenthesis, square or curly bracker '(', '[', '{')
+    //! \param last_bracket data after collection's elements (usual it is the parenthesis, square or curly bracker ')', ']', '}')
     template<class Container>
     void print( const Container& collection
               , const std::string& elem_separator   = default_elem_separator
@@ -224,11 +224,11 @@ namespace eos
 
     //! Prints collections like std:map<T, U> as in Python
     //! supports generic objects of std: map, multimap
-	//! \param collection which should be printed
-	//! \param elem_separator the separator which will be inserted between elements of collection
-	//! \param keyval_separator separator between key and value of map. For default it is the '=>'
-	//! \param first_bracket data before collection's elements (usual it is the parenthesis, square or curly bracker '(', '[', '{')
-	//! \param last_bracket data after collection's elements (usual it is the parenthesis, square or curly bracker ')', ']', '}')
+    //! \param collection which should be printed
+    //! \param elem_separator the separator which will be inserted between elements of collection
+    //! \param keyval_separator separator between key and value of map. For default it is the '=>'
+    //! \param first_bracket data before collection's elements (usual it is the parenthesis, square or curly bracker '(', '[', '{')
+    //! \param last_bracket data after collection's elements (usual it is the parenthesis, square or curly bracker ')', ']', '}')
     MAP_TEMPLATE
     void print(   const Container<Key, Value>& collection
                 , const std::string& elem_separator   = default_elem_separator
@@ -238,11 +238,11 @@ namespace eos
                 , std::ostream& os = std::cout
                 , bool needEndl = true
         )
-	{
+    {
         typename Container<Key, Value>::const_iterator it = collection.begin();
-		BUILD_MAP_CONTENT
+        BUILD_MAP_CONTENT
         COMPILE_CONTENT
-	}
+    }
 
     //! Prints classes like std:unordered_map as in Python
     //! \param collection which should be printed
@@ -266,11 +266,11 @@ namespace eos
     }
 
     //! Prints collections like std:array<T, Size> as in Python
-	//! \param collection which should be printed
-	//! \param elem_separator the separator which will be inserted between elements of collection
-	//! \param keyval_separator separator between key and value of map. For default it is the '=>'
-	//! \param first_bracket data before collection's elements (usual it is the parenthesis, square or curly bracker '(', '[', '{')
-	//! \param last_bracket data after collection's elements (usual it is the parenthesis, square or curly bracker ')', ']', '}')
+    //! \param collection which should be printed
+    //! \param elem_separator the separator which will be inserted between elements of collection
+    //! \param keyval_separator separator between key and value of map. For default it is the '=>'
+    //! \param first_bracket data before collection's elements (usual it is the parenthesis, square or curly bracker '(', '[', '{')
+    //! \param last_bracket data after collection's elements (usual it is the parenthesis, square or curly bracker ')', ']', '}')
     ARRAY_TEMPLATE
     void print(   const Array<Type, Size>& collection
                 , const std::string& elem_separator   = default_elem_separator
@@ -285,19 +285,19 @@ namespace eos
         COMPILE_CONTENT
     }
 
-	//! Removes all whitespaces before data in string.
-	//! \param str string with data
-	//! \return string without whitespaces in left part
+    //! Removes all whitespaces before data in string.
+    //! \param str string with data
+    //! \return string without whitespaces in left part
     std::string ltrim(const std::string& str);
 
-	//! Removes all whitespaces after data in string
-	//! \param str string with data
-	//! \return string without whitespaces in right part
+    //! Removes all whitespaces after data in string
+    //! \param str string with data
+    //! \return string without whitespaces in right part
     std::string rtrim(const std::string& str);
 
-	//! Removes all whitespaces before and after data in string
-	//! \param str string with data
-	//! \return string without whitespaces before and after data in string
+    //! Removes all whitespaces before and after data in string
+    //! \param str string with data
+    //! \return string without whitespaces before and after data in string
     std::string trim(const std::string& str);
 
 
