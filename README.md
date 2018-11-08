@@ -1,6 +1,11 @@
 # eos library
 The name Eos was taken from greek mythology and translates as the dawn of the Sun.
 
+<a href="https://scan.coverity.com/projects/skident-eos">
+  <img alt="Coverity Scan Build Status"
+       src="https://scan.coverity.com/projects/17192/badge.svg"/>
+</a>
+
 **Purpose**
 
 Library eos provides own types and functions which are give oportunity to coding on C++ a bit easier and abstract. 
